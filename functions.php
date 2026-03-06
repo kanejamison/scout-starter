@@ -13,25 +13,18 @@ if ( ! defined( 'SCOUT_STARTER_VERSION' ) ) {
  * Theme setup.
  */
 function scout_starter_setup() {
-	// Automatic feed links.
 	add_theme_support( 'automatic-feed-links' );
-
-	// Let WP manage the document title.
 	add_theme_support( 'title-tag' );
-
-	// Post thumbnails.
 	add_theme_support( 'post-thumbnails' );
 	set_post_thumbnail_size( 1200, 675, true );
 	add_image_size( 'scout-hero', 1920, 800, true );
 	add_image_size( 'scout-card', 600, 338, true );
 
-	// Navigation menus.
 	register_nav_menus( array(
 		'primary' => __( 'Primary Menu', 'scout-starter' ),
 		'footer'  => __( 'Footer Menu', 'scout-starter' ),
 	) );
 
-	// HTML5 markup.
 	add_theme_support( 'html5', array(
 		'search-form',
 		'comment-form',
@@ -42,7 +35,6 @@ function scout_starter_setup() {
 		'script',
 	) );
 
-	// Custom logo.
 	add_theme_support( 'custom-logo', array(
 		'height'      => 100,
 		'width'       => 100,
@@ -50,17 +42,14 @@ function scout_starter_setup() {
 		'flex-width'  => true,
 	) );
 
-	// Custom background.
 	add_theme_support( 'custom-background', array(
 		'default-color' => 'ffffff',
 	) );
 
-	// Block editor support.
 	add_theme_support( 'wp-block-styles' );
 	add_theme_support( 'align-wide' );
 	add_theme_support( 'responsive-embeds' );
 
-	// Content width.
 	global $content_width;
 	if ( ! isset( $content_width ) ) {
 		$content_width = 1140;
@@ -72,7 +61,6 @@ add_action( 'after_setup_theme', 'scout_starter_setup' );
  * Enqueue styles and scripts.
  */
 function scout_starter_scripts() {
-	// Google Fonts (Roboto Slab for headings).
 	wp_enqueue_style(
 		'scout-starter-fonts',
 		'https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap',
@@ -80,7 +68,6 @@ function scout_starter_scripts() {
 		null
 	);
 
-	// Theme stylesheet.
 	wp_enqueue_style(
 		'scout-starter-style',
 		get_stylesheet_uri(),
@@ -88,7 +75,6 @@ function scout_starter_scripts() {
 		SCOUT_STARTER_VERSION
 	);
 
-	// Navigation toggle.
 	wp_enqueue_script(
 		'scout-starter-navigation',
 		get_template_directory_uri() . '/assets/js/navigation.js',
@@ -146,223 +132,95 @@ function scout_starter_widgets_init() {
 add_action( 'widgets_init', 'scout_starter_widgets_init' );
 
 /**
- * Add body classes.
- */
-function scout_starter_body_classes( $classes ) {
-	$unit_type = get_theme_mod( 'scout_unit_type', 'pack' );
-	$classes[]  = 'scout-type-' . sanitize_html_class( $unit_type );
-
-	if ( ! is_singular() ) {
-		$classes[] = 'hfeed';
-	}
-
-	return $classes;
-}
-add_filter( 'body_class', 'scout_starter_body_classes' );
-
-/**
- * Customizer settings.
+ * Customizer color settings.
+ *
+ * BSA official palette:
+ *   Scouting Blue  #003F87  (Pantone 294)
+ *   Scouting Red   #CE1126  (Pantone 186)
+ *   Yellow         #FFCC00  (Pantone 116)
+ *   Brown          #996633  (Pantone 463)
+ *   Light Gray     #eae6e6
  */
 function scout_starter_customize_register( $wp_customize ) {
 
-	// ── Scout Unit Panel ──────────────────────────────────────
-
-	$wp_customize->add_section( 'scout_unit_settings', array(
-		'title'    => __( 'Scout Unit Settings', 'scout-starter' ),
+	$wp_customize->add_section( 'scout_colors', array(
+		'title'    => __( 'Scout Colors', 'scout-starter' ),
 		'priority' => 20,
 	) );
 
-	// Unit type (pack vs troop).
-	$wp_customize->add_setting( 'scout_unit_type', array(
-		'default'           => 'pack',
-		'sanitize_callback' => 'scout_starter_sanitize_unit_type',
-		'transport'         => 'refresh',
-	) );
-
-	$wp_customize->add_control( 'scout_unit_type', array(
-		'label'   => __( 'Unit Type', 'scout-starter' ),
-		'section' => 'scout_unit_settings',
-		'type'    => 'select',
-		'choices' => array(
-			'pack'  => __( 'Cub Scout Pack', 'scout-starter' ),
-			'troop' => __( 'Scout Troop', 'scout-starter' ),
+	$color_settings = array(
+		'scout_color_primary'   => array(
+			'label'   => __( 'Primary Color', 'scout-starter' ),
+			'default' => '#003F87',
 		),
-	) );
+		'scout_color_accent'    => array(
+			'label'   => __( 'Accent Color', 'scout-starter' ),
+			'default' => '#FFCC00',
+		),
+		'scout_color_nav_bg'    => array(
+			'label'   => __( 'Navigation Background', 'scout-starter' ),
+			'default' => '#003F87',
+		),
+		'scout_color_hero_bg'   => array(
+			'label'   => __( 'Hero Background', 'scout-starter' ),
+			'default' => '#003F87',
+		),
+		'scout_color_footer_bg' => array(
+			'label'   => __( 'Footer Background', 'scout-starter' ),
+			'default' => '#003F87',
+		),
+	);
 
-	// Unit number.
-	$wp_customize->add_setting( 'scout_unit_number', array(
-		'default'           => '',
-		'sanitize_callback' => 'sanitize_text_field',
-		'transport'         => 'refresh',
-	) );
-
-	$wp_customize->add_control( 'scout_unit_number', array(
-		'label'       => __( 'Unit Number', 'scout-starter' ),
-		'description' => __( 'e.g. 4084', 'scout-starter' ),
-		'section'     => 'scout_unit_settings',
-		'type'        => 'text',
-	) );
-
-	// Location.
-	$wp_customize->add_setting( 'scout_location', array(
-		'default'           => '',
-		'sanitize_callback' => 'sanitize_text_field',
-		'transport'         => 'refresh',
-	) );
-
-	$wp_customize->add_control( 'scout_location', array(
-		'label'       => __( 'Location', 'scout-starter' ),
-		'description' => __( 'e.g. Anacortes, WA', 'scout-starter' ),
-		'section'     => 'scout_unit_settings',
-		'type'        => 'text',
-	) );
-
-	// Age range description.
-	$wp_customize->add_setting( 'scout_age_range', array(
-		'default'           => '',
-		'sanitize_callback' => 'sanitize_text_field',
-		'transport'         => 'refresh',
-	) );
-
-	$wp_customize->add_control( 'scout_age_range', array(
-		'label'       => __( 'Age/Grade Range', 'scout-starter' ),
-		'description' => __( 'e.g. grades K-5 or ages 11-17', 'scout-starter' ),
-		'section'     => 'scout_unit_settings',
-		'type'        => 'text',
-	) );
-
-	// ── Hero Section ──────────────────────────────────────────
-
-	$wp_customize->add_section( 'scout_hero_settings', array(
-		'title'    => __( 'Homepage Hero', 'scout-starter' ),
-		'priority' => 25,
-	) );
-
-	// Hero image.
-	$wp_customize->add_setting( 'scout_hero_image', array(
-		'default'           => '',
-		'sanitize_callback' => 'esc_url_raw',
-	) );
-
-	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'scout_hero_image', array(
-		'label'   => __( 'Hero Background Image', 'scout-starter' ),
-		'section' => 'scout_hero_settings',
-	) ) );
-
-	// Hero tagline.
-	$wp_customize->add_setting( 'scout_hero_tagline', array(
-		'default'           => __( 'Adventure starts here.', 'scout-starter' ),
-		'sanitize_callback' => 'sanitize_text_field',
-	) );
-
-	$wp_customize->add_control( 'scout_hero_tagline', array(
-		'label'   => __( 'Hero Tagline', 'scout-starter' ),
-		'section' => 'scout_hero_settings',
-		'type'    => 'text',
-	) );
-
-	// CTA button text.
-	$wp_customize->add_setting( 'scout_cta_text', array(
-		'default'           => __( 'Join Us', 'scout-starter' ),
-		'sanitize_callback' => 'sanitize_text_field',
-	) );
-
-	$wp_customize->add_control( 'scout_cta_text', array(
-		'label'   => __( 'CTA Button Text', 'scout-starter' ),
-		'section' => 'scout_hero_settings',
-		'type'    => 'text',
-	) );
-
-	// CTA button URL.
-	$wp_customize->add_setting( 'scout_cta_url', array(
-		'default'           => '#',
-		'sanitize_callback' => 'esc_url_raw',
-	) );
-
-	$wp_customize->add_control( 'scout_cta_url', array(
-		'label'   => __( 'CTA Button Link', 'scout-starter' ),
-		'section' => 'scout_hero_settings',
-		'type'    => 'url',
-	) );
-
-	// ── Social Links ──────────────────────────────────────────
-
-	$wp_customize->add_section( 'scout_social_settings', array(
-		'title'    => __( 'Social Links', 'scout-starter' ),
-		'priority' => 30,
-	) );
-
-	$social_networks = array( 'facebook', 'instagram', 'youtube' );
-
-	foreach ( $social_networks as $network ) {
-		$wp_customize->add_setting( "scout_social_{$network}", array(
-			'default'           => '',
-			'sanitize_callback' => 'esc_url_raw',
+	foreach ( $color_settings as $id => $args ) {
+		$wp_customize->add_setting( $id, array(
+			'default'           => $args['default'],
+			'sanitize_callback' => 'sanitize_hex_color',
+			'transport'         => 'refresh',
 		) );
 
-		$wp_customize->add_control( "scout_social_{$network}", array(
-			'label'   => ucfirst( $network ) . ' URL',
-			'section' => 'scout_social_settings',
-			'type'    => 'url',
-		) );
+		$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, $id, array(
+			'label'   => $args['label'],
+			'section' => 'scout_colors',
+		) ) );
 	}
 }
 add_action( 'customize_register', 'scout_starter_customize_register' );
 
 /**
- * Sanitize unit type.
+ * Output customizer color overrides as inline CSS custom properties.
  */
-function scout_starter_sanitize_unit_type( $input ) {
-	$valid = array( 'pack', 'troop' );
-	return in_array( $input, $valid, true ) ? $input : 'pack';
+function scout_starter_customizer_css() {
+	$primary   = get_theme_mod( 'scout_color_primary', '#003F87' );
+	$accent    = get_theme_mod( 'scout_color_accent', '#FFCC00' );
+	$nav_bg    = get_theme_mod( 'scout_color_nav_bg', '#003F87' );
+	$hero_bg   = get_theme_mod( 'scout_color_hero_bg', '#003F87' );
+	$footer_bg = get_theme_mod( 'scout_color_footer_bg', '#003F87' );
+
+	printf(
+		'<style id="scout-starter-colors">:root{--color-primary:%s;--color-primary-dark:%s;--color-accent:%s;--color-accent-dark:%s;--color-nav-bg:%s;--color-hero-bg:%s;--color-footer-bg:%s;}</style>',
+		esc_attr( $primary ),
+		esc_attr( scout_starter_darken_color( $primary ) ),
+		esc_attr( $accent ),
+		esc_attr( scout_starter_darken_color( $accent ) ),
+		esc_attr( $nav_bg ),
+		esc_attr( $hero_bg ),
+		esc_attr( $footer_bg )
+	);
 }
+add_action( 'wp_head', 'scout_starter_customizer_css' );
 
 /**
- * Get the unit display name.
+ * Darken a hex color by reducing each RGB channel by $amount.
  */
-function scout_starter_unit_name() {
-	$type   = get_theme_mod( 'scout_unit_type', 'pack' );
-	$number = get_theme_mod( 'scout_unit_number', '' );
-
-	if ( 'troop' === $type ) {
-		$label = __( 'Scout Troop', 'scout-starter' );
-	} else {
-		$label = __( 'Cub Scout Pack', 'scout-starter' );
+function scout_starter_darken_color( $hex, $amount = 30 ) {
+	$hex = ltrim( $hex, '#' );
+	if ( 3 === strlen( $hex ) ) {
+		$hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
 	}
-
-	if ( $number ) {
-		$label .= ' ' . $number;
-	}
-
-	return $label;
-}
-
-/**
- * Get the unit type label.
- */
-function scout_starter_unit_type_label() {
-	$type = get_theme_mod( 'scout_unit_type', 'pack' );
-	return ( 'troop' === $type )
-		? __( 'Scout Troop', 'scout-starter' )
-		: __( 'Cub Scout Pack', 'scout-starter' );
-}
-
-/**
- * Get unit subtitle (serves ... in ...).
- */
-function scout_starter_unit_subtitle() {
-	$age_range = get_theme_mod( 'scout_age_range', '' );
-	$location  = get_theme_mod( 'scout_location', '' );
-
-	$parts = array();
-	if ( $age_range ) {
-		$parts[] = sprintf( __( 'Serving %s', 'scout-starter' ), $age_range );
-	}
-	if ( $location ) {
-		$parts[] = sprintf( __( 'in %s', 'scout-starter' ), $location );
-	}
-
-	return implode( ' ', $parts );
+	$r = max( 0, hexdec( substr( $hex, 0, 2 ) ) - $amount );
+	$g = max( 0, hexdec( substr( $hex, 2, 2 ) ) - $amount );
+	$b = max( 0, hexdec( substr( $hex, 4, 2 ) ) - $amount );
+	return sprintf( '#%02x%02x%02x', $r, $g, $b );
 }
 
 /**
