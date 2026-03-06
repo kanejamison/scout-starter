@@ -30,7 +30,7 @@
 				<div>
 					<p class="site-title">
 						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-							<?php echo esc_html( scout_starter_unit_name() ); ?>
+							<?php bloginfo( 'name' ); ?>
 						</a>
 					</p>
 					<?php

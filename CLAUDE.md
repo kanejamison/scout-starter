@@ -14,13 +14,15 @@ WordPress coding standards use tabs for indentation in PHP files. CSS uses 2-spa
 
 ## Architecture
 
-### Color scheme switching
+### Color scheme
 
-The Pack/Troop toggle works entirely via CSS custom properties and a body class. `functions.php:151` adds `scout-type-pack` or `scout-type-troop` to `<body>`. `style.css:56` overrides `--color-accent` for `body.scout-type-troop`. Any new accent-colored element should use `var(--color-accent)` to automatically respond to this toggle.
+All colors are driven by CSS custom properties defined in `:root` in `style.css`. The Customizer exposes five color pickers (primary, accent, nav background, hero background, footer background) registered in `functions.php` under `scout_starter_customize_register()`. Settings use the `scout_color_` prefix and are sanitized with `sanitize_hex_color`.
 
-### Customizer settings
+`scout_starter_customizer_css()` (hooked to `wp_head`) outputs an inline `<style>` tag that overrides the `:root` custom properties based on saved theme mods. It also calls `scout_starter_darken_color()` to compute `--color-primary-dark` and `--color-accent-dark` for hover states. This inline CSS always loads, so the `:root` values in `style.css` are effectively fallbacks only.
 
-All theme options are registered in `functions.php` under `scout_starter_customize_register()`. Settings use the `scout_` prefix. Helper functions (`scout_starter_unit_name()`, `scout_starter_unit_subtitle()`, `scout_starter_unit_type_label()`) wrap `get_theme_mod()` calls for use in templates.
+The BSA official palette is: Scouting Blue `#003F87`, Scouting Red `#CE1126`, Yellow `#FFCC00`, Brown `#996633`, Light Gray `#eae6e6`.
+
+Site title and tagline come from WP Settings > General (`bloginfo('name')` / `bloginfo('description')`), not from Customizer settings.
 
 ### Template hierarchy
 
@@ -29,7 +31,7 @@ All theme options are registered in `functions.php` under `scout_starter_customi
 - `template-parts/content-card.php` — Post card used in the homepage grid
 - `template-parts/content-post.php` — Full single post layout
 - `template-parts/content-page.php` — Page layout
-- `inc/template-tags.php` — Reusable output functions (`scout_starter_posted_on()`, `scout_starter_posted_by()`, `scout_starter_entry_footer()`, `scout_starter_social_links()`)
+- `inc/template-tags.php` — Reusable output functions (`scout_starter_posted_on()`, `scout_starter_posted_by()`, `scout_starter_entry_footer()`)
 
 ### Key CSS patterns
 

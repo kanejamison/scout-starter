@@ -33,10 +33,9 @@
 			<?php endif; ?>
 
 			<div class="site-info">
-				<?php scout_starter_social_links(); ?>
 				<p>
 					&copy; <?php echo esc_html( date( 'Y' ) ); ?>
-					<?php echo esc_html( scout_starter_unit_name() ); ?>.
+					<?php bloginfo( 'name' ); ?>.
 					<?php esc_html_e( 'All rights reserved.', 'scout-starter' ); ?>
 				</p>
 			</div>
