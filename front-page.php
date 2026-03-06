@@ -41,18 +41,21 @@ endif;
 ?>
 
 <?php
-// Recent posts section (shows latest 3 posts if blog posts exist).
-$recent_posts = new WP_Query( array(
+// Recent posts section — only shown when enabled in Customizer.
+$news_enabled = get_theme_mod( 'scout_news_enabled', false );
+$news_heading  = get_theme_mod( 'scout_news_heading', __( 'Latest News', 'scout-starter' ) );
+
+$recent_posts = $news_enabled ? new WP_Query( array(
 	'posts_per_page'      => 3,
 	'post_status'         => 'publish',
 	'ignore_sticky_posts' => true,
-) );
+) ) : false;
 
-if ( $recent_posts->have_posts() ) :
+if ( $news_enabled && $recent_posts && $recent_posts->have_posts() ) :
 	?>
 	<section class="section section--alt">
 		<div class="container">
-			<h2 class="section__title"><?php esc_html_e( 'Latest News', 'scout-starter' ); ?></h2>
+			<h2 class="section__title"><?php echo esc_html( $news_heading ); ?></h2>
 			<div class="card-grid">
 				<?php
 				while ( $recent_posts->have_posts() ) :

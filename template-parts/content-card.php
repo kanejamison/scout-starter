@@ -20,9 +20,11 @@
 			<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 		</h3>
 
-		<p class="card__meta">
-			<?php scout_starter_posted_on(); ?>
-		</p>
+		<?php if ( get_theme_mod( 'scout_news_show_dates', false ) ) : ?>
+			<p class="card__meta">
+				<?php scout_starter_posted_on(); ?>
+			</p>
+		<?php endif; ?>
 
 		<div class="card__excerpt">
 			<?php the_excerpt(); ?>

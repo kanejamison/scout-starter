@@ -198,6 +198,51 @@ function scout_starter_customize_register( $wp_customize ) {
 		),
 	);
 
+	// ── Latest News Section ───────────────────────────────────
+
+	$wp_customize->add_section( 'scout_news_settings', array(
+		'title'    => __( 'Latest News Section', 'scout-starter' ),
+		'priority' => 25,
+	) );
+
+	$wp_customize->add_setting( 'scout_news_enabled', array(
+		'default'           => false,
+		'sanitize_callback' => 'scout_starter_sanitize_checkbox',
+		'transport'         => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'scout_news_enabled', array(
+		'label'   => __( 'Show Latest News section on homepage', 'scout-starter' ),
+		'section' => 'scout_news_settings',
+		'type'    => 'checkbox',
+	) );
+
+	$wp_customize->add_setting( 'scout_news_heading', array(
+		'default'           => __( 'Latest News', 'scout-starter' ),
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport'         => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'scout_news_heading', array(
+		'label'   => __( 'Section Heading', 'scout-starter' ),
+		'section' => 'scout_news_settings',
+		'type'    => 'text',
+	) );
+
+	$wp_customize->add_setting( 'scout_news_show_dates', array(
+		'default'           => false,
+		'sanitize_callback' => 'scout_starter_sanitize_checkbox',
+		'transport'         => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'scout_news_show_dates', array(
+		'label'   => __( 'Show post dates on cards', 'scout-starter' ),
+		'section' => 'scout_news_settings',
+		'type'    => 'checkbox',
+	) );
+
+	// ── Colors ────────────────────────────────────────────────
+
 	foreach ( $color_settings as $id => $args ) {
 		$wp_customize->add_setting( $id, array(
 			'default'           => $args['default'],
@@ -235,6 +280,13 @@ function scout_starter_customizer_css() {
 	);
 }
 add_action( 'wp_head', 'scout_starter_customizer_css' );
+
+/**
+ * Sanitize a checkbox value to boolean.
+ */
+function scout_starter_sanitize_checkbox( $value ) {
+	return (bool) $value;
+}
 
 /**
  * Darken a hex color by reducing each RGB channel by $amount.
