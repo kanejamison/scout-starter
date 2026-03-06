@@ -58,12 +58,27 @@ function scout_starter_setup() {
 add_action( 'after_setup_theme', 'scout_starter_setup' );
 
 /**
+ * Add preconnect resource hints for Google Fonts.
+ */
+function scout_starter_resource_hints( $urls, $relation_type ) {
+	if ( 'preconnect' === $relation_type ) {
+		$urls[] = 'https://fonts.googleapis.com';
+		$urls[] = array(
+			'href'        => 'https://fonts.gstatic.com',
+			'crossorigin' => true,
+		);
+	}
+	return $urls;
+}
+add_filter( 'wp_resource_hints', 'scout_starter_resource_hints', 10, 2 );
+
+/**
  * Enqueue styles and scripts.
  */
 function scout_starter_scripts() {
 	wp_enqueue_style(
 		'scout-starter-fonts',
-		'https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap',
+		'https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap',
 		array(),
 		null
 	);
