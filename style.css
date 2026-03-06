@@ -19,11 +19,16 @@ Tags: one-column, custom-colors, custom-logo, custom-menu, featured-images, them
    ========================================================================== */
 
 :root {
-  /* Base palette — overridden by unit type */
+  /* Base palette — overridden via Customizer inline CSS */
   --color-primary: #003f87;
-  --color-accent: #fdc116;
+  --color-accent: #ffcc00;
   --color-primary-dark: #002d5e;
-  --color-accent-dark: #d9a200;
+  --color-accent-dark: #cca300;
+
+  /* Section backgrounds — independently overridable via Customizer */
+  --color-nav-bg: #003f87;
+  --color-hero-bg: #003f87;
+  --color-footer-bg: #003f87;
 
   /* Neutrals */
   --color-bg: #ffffff;
@@ -50,12 +55,6 @@ Tags: one-column, custom-colors, custom-logo, custom-menu, featured-images, them
   --font-size-2xl: 2rem;
   --font-size-3xl: 2.5rem;
   --line-height: 1.65;
-}
-
-/* Troop color override — applied via body class */
-body.scout-type-troop {
-  --color-accent: #ce1126;
-  --color-accent-dark: #a00d1e;
 }
 
 /* ==========================================================================
@@ -147,7 +146,7 @@ p {
    ========================================================================== */
 
 .site-header {
-  background-color: var(--color-primary);
+  background-color: var(--color-nav-bg);
   color: #fff;
   position: sticky;
   top: 0;
@@ -251,7 +250,7 @@ p {
     top: 100%;
     left: 0;
     right: 0;
-    background-color: var(--color-primary);
+    background-color: var(--color-nav-bg);
     padding: var(--spacing-sm);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
@@ -271,50 +270,10 @@ p {
    ========================================================================== */
 
 .hero {
-  background-color: var(--color-primary);
+  background-color: var(--color-hero-bg);
   color: #fff;
   padding-block: var(--spacing-xl);
   text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero--has-image {
-  background-size: cover;
-  background-position: center;
-}
-
-.hero--has-image::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 63, 135, 0.85),
-    rgba(0, 63, 135, 0.7)
-  );
-}
-
-.hero .container {
-  position: relative;
-  z-index: 1;
-}
-
-.hero__unit-type {
-  display: inline-block;
-  background-color: var(--color-accent);
-  color: var(--color-primary);
-  font-size: var(--font-size-sm);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: 4px;
-  margin-bottom: var(--spacing-sm);
-}
-
-body.scout-type-troop .hero__unit-type {
-  color: #fff;
 }
 
 .hero__title {
@@ -342,10 +301,6 @@ body.scout-type-troop .hero__unit-type {
   letter-spacing: 0.05em;
   font-size: var(--font-size-sm);
   transition: background-color 0.15s;
-}
-
-body.scout-type-troop .hero__cta {
-  color: #fff;
 }
 
 .hero__cta:hover {
@@ -516,7 +471,7 @@ body.scout-type-troop .hero__cta {
    ========================================================================== */
 
 .site-footer {
-  background-color: var(--color-primary);
+  background-color: var(--color-footer-bg);
   color: rgba(255, 255, 255, 0.85);
   padding-block: var(--spacing-lg);
   margin-top: auto;
@@ -565,30 +520,6 @@ body.scout-type-troop .hero__cta {
 
 .site-info a {
   color: rgba(255, 255, 255, 0.6);
-}
-
-/* Social links in footer */
-.social-links {
-  list-style: none;
-  display: flex;
-  gap: var(--spacing-sm);
-}
-
-.social-links a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
-  transition: background-color 0.15s;
-}
-
-.social-links a:hover {
-  background-color: var(--color-accent);
-  text-decoration: none;
 }
 
 /* ==========================================================================
