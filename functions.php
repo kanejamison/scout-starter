@@ -58,6 +58,18 @@ function scout_starter_setup() {
 add_action( 'after_setup_theme', 'scout_starter_setup' );
 
 /**
+ * Output a default favicon when no site icon has been set via Customizer.
+ */
+function scout_starter_default_favicon() {
+	if ( ! has_site_icon() ) {
+		$url = get_template_directory_uri() . '/assets/images/default-favicon.png';
+		printf( '<link rel="icon" href="%s" sizes="300x300" type="image/png">' . "\n", esc_url( $url ) );
+		printf( '<link rel="apple-touch-icon" href="%s">' . "\n", esc_url( $url ) );
+	}
+}
+add_action( 'wp_head', 'scout_starter_default_favicon' );
+
+/**
  * Add preconnect resource hints for Google Fonts.
  */
 function scout_starter_resource_hints( $urls, $relation_type ) {
