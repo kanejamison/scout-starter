@@ -6,6 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Scout Starter is a plain WordPress theme (no build step, no npm, no frameworks). All styles live in `style.css` and the only JavaScript is `assets/js/navigation.js` for the mobile menu toggle.
 
+## Versioning
+
+Increment patch versions sequentially (`1.0.9` → `1.0.10` → `1.0.11`). Do not roll patch to a new minor or major version automatically — always ask the user before bumping to a new minor (`1.1.0`) or major (`2.0.0`) version. Version must be updated in both `style.css` (`Version:` header) and `functions.php` (`SCOUT_STARTER_VERSION` constant).
+
 ## Development
 
 There is no build process. Edit PHP, CSS, and JS files directly. To test changes, the theme must be installed in a WordPress instance at `/wp-content/themes/scout-starter/` (or symlinked there).
