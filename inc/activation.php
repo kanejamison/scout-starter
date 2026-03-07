@@ -52,10 +52,25 @@ function scout_starter_activate() {
 		}
 	}
 
-	// Enable hero section on the home page (default on, show excerpt as subtitle).
+	// Enable hero section on the home page and set default excerpt and buttons.
 	if ( ! empty( $page_ids['home'] ) ) {
 		update_post_meta( $page_ids['home'], '_scout_hero_enabled', 1 );
 		update_post_meta( $page_ids['home'], '_scout_hero_show_excerpt', 1 );
+
+		wp_update_post( array(
+			'ID'           => $page_ids['home'],
+			'post_excerpt' => 'Cub Scout Pack 1234 was chartered in 1999 and serves boys and girls in grades K-5 in the Anacortes, WA area.',
+		) );
+
+		update_post_meta( $page_ids['home'], '_scout_hero_btn1_label', 'Upcoming Events' );
+		update_post_meta( $page_ids['home'], '_scout_hero_btn1_url',   '/events' );
+		update_post_meta( $page_ids['home'], '_scout_hero_btn1_bg',    '#ffffff' );
+		update_post_meta( $page_ids['home'], '_scout_hero_btn1_text',  'var(--color-primary)' );
+
+		update_post_meta( $page_ids['home'], '_scout_hero_btn2_label', 'Join Pack 1234' );
+		update_post_meta( $page_ids['home'], '_scout_hero_btn2_url',   '/join-us' );
+		update_post_meta( $page_ids['home'], '_scout_hero_btn2_bg',    'var(--color-accent)' );
+		update_post_meta( $page_ids['home'], '_scout_hero_btn2_text',  '#ffffff' );
 	}
 
 	// Set static front page if not already configured.
