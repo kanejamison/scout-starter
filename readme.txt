@@ -7,22 +7,22 @@ Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A minimal WordPress starter theme for Scout units. Supports Cub Scout Packs and Scout Troops with a single Customizer toggle.
+A minimal WordPress starter theme for BSA Scout units (Cub Scout Packs and Scout Troops).
 
 == Description ==
 
-Scout Starter is a lightweight WordPress theme designed for BSA Scout units. It provides a clean, professional layout with unit-specific branding out of the box.
+Scout Starter is a lightweight WordPress theme designed for BSA Scout units. It provides a clean, professional layout with customizable branding out of the box.
 
 Features:
 
-- Single theme with Pack/Troop color toggle via Customizer
-- Cub Scout Pack: navy blue (#003f87) + gold (#fdc116)
-- Scout Troop: navy blue (#003f87) + red (#ce1126)
-- Homepage hero section with background image support
-- Recent posts / news grid on homepage
+- Custom color picker for primary, accent, nav, hero, and footer colors
+- BSA-aligned default palette: navy blue (#003F87) + gold (#FFCC00)
+- Homepage hero section with site title and tagline
+- Optional recent posts / news grid on homepage (off by default)
 - Three footer widget areas
-- Social links (Facebook, Instagram, YouTube)
 - Fully responsive mobile navigation
+- Default pages and nav menu created automatically on theme activation
+- Starter content for Pack and Troop (About, Events, Contact, Join Us pages)
 - No build tools required, no dependencies
 - Clean, semantic HTML with accessibility support
 
@@ -30,26 +30,25 @@ Features:
 
 1. Upload the `scout-starter` folder to `/wp-content/themes/`
 2. Activate through Appearance > Themes
-3. Go to Appearance > Customize
-4. Under "Scout Unit Settings":
-   - Select Pack or Troop
-   - Enter your unit number
-   - Enter your location and age range
-5. Under "Homepage Hero":
-   - Upload a hero background image
-   - Set your tagline and CTA button
-6. Under "Social Links":
-   - Add your Facebook, Instagram, or YouTube URLs
-7. Set up a Primary Menu under Appearance > Menus
-8. Add widgets to Footer 1, 2, and 3 areas
+3. Default pages (Home, About, Events, Contact, Join Us) and a Primary Menu are created automatically
+4. Go to Appearance > Customize > Scout Colors to set your unit's colors
+5. Review and update starter content on each page (remove the Pack/Troop setup note and delete the section that doesn't apply)
+6. Upload your unit logo via Appearance > Customize > Site Identity > Logo
+7. Add widgets to Footer 1, 2, and 3 areas
 
-== Setup Checklist ==
+== Customizer Options ==
 
-1. Upload your unit logo via Appearance > Customize > Site Identity > Logo
-2. Set a Static Front Page under Settings > Reading
-3. Create pages: About, Events/Calendar, Contact, Join Us
-4. Create a Primary Menu with those pages
-5. Populate footer widgets (contact info, meeting times, quick links)
+= Scout Colors =
+- Primary Color — main brand color (headings, buttons, links)
+- Accent Color — highlight color (CTA buttons, underlines)
+- Navigation Background
+- Hero Background
+- Footer Background
+
+= Latest News Section =
+- Enable/disable a recent posts grid on the homepage
+- Custom section heading
+- Toggle post date display
 
 == Changelog ==
 
