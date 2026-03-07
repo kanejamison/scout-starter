@@ -24,6 +24,7 @@ Tags: one-column, custom-colors, custom-logo, custom-menu, featured-images, them
   --color-accent: #ffcc00;
   --color-primary-dark: #002d5e;
   --color-accent-dark: #cca300;
+  --color-accent-text: #003f87; /* auto-computed by PHP based on accent luminance */
 
   /* Section backgrounds — independently overridable via Customizer */
   --color-nav-bg: #003f87;
@@ -228,13 +229,13 @@ p {
 
 .main-navigation .menu-item-join > a {
   background-color: var(--color-accent);
-  color: var(--color-primary);
+  color: var(--color-accent-text);
   font-weight: 700;
 }
 
 .main-navigation .menu-item-join > a:hover {
   background-color: var(--color-accent-dark);
-  color: var(--color-primary);
+  color: var(--color-accent-text);
 }
 
 /* Mobile menu toggle */
@@ -322,7 +323,7 @@ p {
 .hero__cta {
   display: inline-block;
   background-color: var(--color-accent);
-  color: var(--color-primary);
+  color: var(--color-accent-text);
   font-weight: 700;
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: 4px;
@@ -616,7 +617,7 @@ input[type="submit"]:hover,
 
 .btn--accent {
   background-color: var(--color-accent);
-  color: var(--color-primary);
+  color: var(--color-accent-text);
 }
 
 .btn--accent:hover {

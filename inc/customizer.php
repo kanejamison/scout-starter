@@ -151,11 +151,12 @@ function scout_starter_customizer_css() {
 	$footer_bg = get_theme_mod( 'scout_color_footer_bg', '#003F87' );
 
 	printf(
-		'<style id="scout-starter-colors">:root{--color-primary:%s;--color-primary-dark:%s;--color-accent:%s;--color-accent-dark:%s;--color-nav-bg:%s;--color-hero-bg:%s;--color-footer-bg:%s;}</style>',
+		'<style id="scout-starter-colors">:root{--color-primary:%s;--color-primary-dark:%s;--color-accent:%s;--color-accent-dark:%s;--color-accent-text:%s;--color-nav-bg:%s;--color-hero-bg:%s;--color-footer-bg:%s;}</style>',
 		esc_attr( $primary ),
 		esc_attr( scout_starter_darken_color( $primary ) ),
 		esc_attr( $accent ),
 		esc_attr( scout_starter_darken_color( $accent ) ),
+		esc_attr( scout_starter_contrast_color( $accent, $primary ) ),
 		esc_attr( $nav_bg ),
 		esc_attr( $hero_bg ),
 		esc_attr( $footer_bg )
@@ -168,6 +169,28 @@ add_action( 'wp_head', 'scout_starter_customizer_css' );
  */
 function scout_starter_sanitize_checkbox( $value ) {
 	return (bool) $value;
+}
+
+/**
+ * Return a readable text color (#ffffff or the primary color) for a given background hex.
+ *
+ * Uses perceived brightness to decide: light backgrounds get the primary color,
+ * dark backgrounds get white.
+ *
+ * @param string $hex     Background hex color.
+ * @param string $primary Primary color hex to use for light backgrounds.
+ * @return string
+ */
+function scout_starter_contrast_color( $hex, $primary ) {
+	$hex = ltrim( $hex, '#' );
+	if ( 3 === strlen( $hex ) ) {
+		$hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+	}
+	$r          = hexdec( substr( $hex, 0, 2 ) );
+	$g          = hexdec( substr( $hex, 2, 2 ) );
+	$b          = hexdec( substr( $hex, 4, 2 ) );
+	$brightness = ( $r * 299 + $g * 587 + $b * 114 ) / 1000;
+	return $brightness > 128 ? $primary : '#ffffff';
 }
 
 /**
