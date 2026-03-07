@@ -80,11 +80,12 @@ function scout_starter_customize_register( $wp_customize ) {
 		'type'        => 'select',
 		'priority'    => 1,
 		'choices'     => array(
-			''           => __( '— Select a preset —', 'scout-starter' ),
-			'cub_pack'   => __( 'Cub Scout Pack (Navy + Gold)', 'scout-starter' ),
-			'troop'      => __( 'Scouts BSA Troop (Navy + Red)', 'scout-starter' ),
-			'venturing'  => __( 'Venturing (Green + Gold)', 'scout-starter' ),
-			'sea_scouts' => __( 'Sea Scouts (Navy + White)', 'scout-starter' ),
+			''                 => __( '— Select a preset —', 'scout-starter' ),
+			'cub_pack'         => __( 'Cub Scout Pack (Navy + Gold)', 'scout-starter' ),
+			'troop'            => __( 'Scouts BSA Troop (Navy + Red)', 'scout-starter' ),
+			'scouting_america' => __( 'Scouting America (Red + White)', 'scout-starter' ),
+			'venturing'        => __( 'Venturing (Green + Gold)', 'scout-starter' ),
+			'sea_scouts'       => __( 'Sea Scouts (Navy + White)', 'scout-starter' ),
 		),
 	) );
 
@@ -107,7 +108,7 @@ function scout_starter_customize_register( $wp_customize ) {
 		),
 		'scout_color_footer_bg' => array(
 			'label'   => __( 'Footer Background', 'scout-starter' ),
-			'default' => '#003F87',
+			'default' => '#eae6e6',
 		),
 	);
 
@@ -148,10 +149,22 @@ function scout_starter_customizer_css() {
 	$accent    = get_theme_mod( 'scout_color_accent', '#FFCC00' );
 	$nav_bg    = get_theme_mod( 'scout_color_nav_bg', '#003F87' );
 	$hero_bg   = get_theme_mod( 'scout_color_hero_bg', '#003F87' );
-	$footer_bg = get_theme_mod( 'scout_color_footer_bg', '#003F87' );
+	$footer_bg = get_theme_mod( 'scout_color_footer_bg', '#eae6e6' );
+
+	$footer_hex = ltrim( $footer_bg, '#' );
+	if ( 3 === strlen( $footer_hex ) ) {
+		$footer_hex = $footer_hex[0] . $footer_hex[0] . $footer_hex[1] . $footer_hex[1] . $footer_hex[2] . $footer_hex[2];
+	}
+	$fr                 = hexdec( substr( $footer_hex, 0, 2 ) );
+	$fg                 = hexdec( substr( $footer_hex, 2, 2 ) );
+	$fb                 = hexdec( substr( $footer_hex, 4, 2 ) );
+	$footer_brightness  = ( $fr * 299 + $fg * 587 + $fb * 114 ) / 1000;
+	$footer_text        = $footer_brightness > 128 ? '#333333' : '#ffffff';
+	$footer_text_subtle = $footer_brightness > 128 ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.6)';
+	$footer_border      = $footer_brightness > 128 ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.15)';
 
 	printf(
-		'<style id="scout-starter-colors">:root{--color-primary:%s;--color-primary-dark:%s;--color-accent:%s;--color-accent-dark:%s;--color-accent-text:%s;--color-nav-bg:%s;--color-hero-bg:%s;--color-footer-bg:%s;}</style>',
+		'<style id="scout-starter-colors">:root{--color-primary:%s;--color-primary-dark:%s;--color-accent:%s;--color-accent-dark:%s;--color-accent-text:%s;--color-nav-bg:%s;--color-hero-bg:%s;--color-footer-bg:%s;--color-footer-text:%s;--color-footer-text-subtle:%s;--color-footer-border:%s;}</style>',
 		esc_attr( $primary ),
 		esc_attr( scout_starter_darken_color( $primary ) ),
 		esc_attr( $accent ),
@@ -159,7 +172,10 @@ function scout_starter_customizer_css() {
 		esc_attr( scout_starter_contrast_color( $accent, $primary ) ),
 		esc_attr( $nav_bg ),
 		esc_attr( $hero_bg ),
-		esc_attr( $footer_bg )
+		esc_attr( $footer_bg ),
+		esc_attr( $footer_text ),
+		esc_attr( $footer_text_subtle ),
+		esc_attr( $footer_border )
 	);
 }
 add_action( 'wp_head', 'scout_starter_customizer_css' );

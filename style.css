@@ -4,7 +4,7 @@ Theme URI: https://github.com/kanejamison/scout-starter
 Author: Kane Jamison
 Author URI: https://www.kanejamison.com
 Description: A minimal WordPress starter theme for Scouting America units — Cub Scouts, Scouts BSA Troops, and more. Upon activation the theme creates core pages for you: homepage, about, events, join, contact, and others.
-Version: 1.0.5
+Version: 1.0.6
 Tested up to: 6.7
 Requires at least: 6.0
 Requires PHP: 7.4
@@ -29,7 +29,10 @@ Tags: one-column, custom-colors, custom-logo, custom-menu, featured-images, them
   /* Section backgrounds — independently overridable via Customizer */
   --color-nav-bg: #003f87;
   --color-hero-bg: #003f87;
-  --color-footer-bg: #003f87;
+  --color-footer-bg: #eae6e6;
+  --color-footer-text: #333333;           /* auto-computed by PHP based on footer bg luminance */
+  --color-footer-text-subtle: rgba(0,0,0,0.5);
+  --color-footer-border: rgba(0,0,0,0.1);
 
   /* Neutrals */
   --color-bg: #ffffff;
@@ -506,7 +509,8 @@ p {
 
 .site-footer {
   background-color: var(--color-footer-bg);
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--color-footer-text);
+  border-top: 1px solid var(--color-footer-border);
   padding-block: var(--spacing-lg);
   margin-top: auto;
 }
@@ -519,7 +523,7 @@ p {
 }
 
 .footer-widgets .widget-title {
-  color: #fff;
+  color: var(--color-footer-text);
   font-size: var(--font-size-base);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -529,11 +533,11 @@ p {
 }
 
 .footer-widgets a {
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--color-footer-text-subtle);
 }
 
 .footer-widgets a:hover {
-  color: #fff;
+  color: var(--color-footer-text);
 }
 
 .footer-widgets ul {
@@ -547,13 +551,13 @@ p {
 .site-info {
   text-align: center;
   padding-top: var(--spacing-md);
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-top: 1px solid var(--color-footer-border);
   font-size: var(--font-size-sm);
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--color-footer-text-subtle);
 }
 
 .site-info a {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--color-footer-text-subtle);
 }
 
 /* ==========================================================================
