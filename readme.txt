@@ -1,13 +1,13 @@
 === Scout Starter ===
 
-Contributors: your-username
+Contributors: kanejamison
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A minimal WordPress starter theme for BSA Scout units (Cub Scout Packs and Scout Troops).
+A minimal WordPress starter theme for Scouting units — Cub Scouts, Scouts BSA Troops, and more. Upon activation the theme creates core pages for you: homepage, about, events, join, contact, and others.
 
 == Description ==
 
@@ -57,5 +57,5 @@ Features:
 
 == Copyright ==
 
-Scout Starter WordPress Theme, (C) 2025-2026
+Scout Starter WordPress Theme, (C) 2026 Kane Jamison
 Scout Starter is distributed under the terms of the GNU GPL v2 or later.
