@@ -4,7 +4,7 @@ Theme URI: https://github.com/kanejamison/scout-starter
 Author: Kane Jamison
 Author URI: https://www.kanejamison.com
 Description: A minimal WordPress starter theme for Scouting units — Cub Scouts, Scouts BSA Troops, and more. Upon activation the theme creates core pages for you: homepage, about, events, join, contact, and others.
-Version: 1.0.3
+Version: 1.0.4
 Tested up to: 6.7
 Requires at least: 6.0
 Requires PHP: 7.4
@@ -320,22 +320,26 @@ p {
   margin-bottom: var(--spacing-md);
 }
 
-.hero__cta {
-  display: inline-block;
-  background-color: var(--color-accent);
-  color: var(--color-accent-text);
-  font-weight: 700;
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: var(--font-size-sm);
-  transition: background-color 0.15s;
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  margin-top: var(--spacing-md);
 }
 
-.hero__cta:hover {
-  background-color: var(--color-accent-dark);
+.hero__actions .btn {
+  transition: opacity 0.15s;
+}
+
+.hero__actions .btn:hover {
+  opacity: 0.85;
+  background-color: inherit;
   text-decoration: none;
+}
+
+.btn--outline {
+  border: 2px solid currentColor;
 }
 
 /* ==========================================================================

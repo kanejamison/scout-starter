@@ -22,6 +22,23 @@ function scout_starter_register_meta() {
 	);
 	register_post_meta( 'page', '_scout_hero_enabled', $args );
 	register_post_meta( 'page', '_scout_hero_show_excerpt', $args );
+
+	$string_args = array(
+		'type'          => 'string',
+		'single'        => true,
+		'show_in_rest'  => true,
+		'auth_callback' => function() {
+			return current_user_can( 'edit_posts' );
+		},
+	);
+	register_post_meta( 'page', '_scout_hero_btn1_label', $string_args );
+	register_post_meta( 'page', '_scout_hero_btn1_url',   $string_args );
+	register_post_meta( 'page', '_scout_hero_btn1_bg',    $string_args );
+	register_post_meta( 'page', '_scout_hero_btn1_text',  $string_args );
+	register_post_meta( 'page', '_scout_hero_btn2_label', $string_args );
+	register_post_meta( 'page', '_scout_hero_btn2_url',   $string_args );
+	register_post_meta( 'page', '_scout_hero_btn2_bg',    $string_args );
+	register_post_meta( 'page', '_scout_hero_btn2_text',  $string_args );
 }
 add_action( 'init', 'scout_starter_register_meta' );
 
@@ -50,8 +67,31 @@ function scout_starter_hero_meta_box_render( $post ) {
 
 	$enabled      = (bool) get_post_meta( $post->ID, '_scout_hero_enabled', true );
 	$show_excerpt = get_post_meta( $post->ID, '_scout_hero_show_excerpt', true );
-	// Default show_excerpt to true if the meta has never been saved.
 	$show_excerpt = ( '' === $show_excerpt ) ? true : (bool) $show_excerpt;
+
+	$btn1_label = get_post_meta( $post->ID, '_scout_hero_btn1_label', true );
+	$btn1_url   = get_post_meta( $post->ID, '_scout_hero_btn1_url',   true );
+	$btn1_bg    = get_post_meta( $post->ID, '_scout_hero_btn1_bg',    true ) ?: 'var(--color-accent)';
+	$btn1_text  = get_post_meta( $post->ID, '_scout_hero_btn1_text',  true ) ?: '#ffffff';
+
+	$btn2_label = get_post_meta( $post->ID, '_scout_hero_btn2_label', true );
+	$btn2_url   = get_post_meta( $post->ID, '_scout_hero_btn2_url',   true );
+	$btn2_bg    = get_post_meta( $post->ID, '_scout_hero_btn2_bg',    true ) ?: 'transparent';
+	$btn2_text  = get_post_meta( $post->ID, '_scout_hero_btn2_text',  true ) ?: '#ffffff';
+
+	$bg_options = array(
+		'var(--color-primary)' => __( 'Primary', 'scout-starter' ),
+		'var(--color-accent)'  => __( 'Accent', 'scout-starter' ),
+		'#ffffff'              => __( 'White', 'scout-starter' ),
+		'transparent'          => __( 'Transparent', 'scout-starter' ),
+	);
+
+	$text_options = array(
+		'#ffffff'              => __( 'White', 'scout-starter' ),
+		'var(--color-primary)' => __( 'Primary', 'scout-starter' ),
+		'var(--color-accent)'  => __( 'Accent', 'scout-starter' ),
+		'#222222'              => __( 'Dark', 'scout-starter' ),
+	);
 	?>
 	<p>
 		<label>
@@ -66,6 +106,68 @@ function scout_starter_hero_meta_box_render( $post ) {
 		</label>
 	</p>
 	<p class="description"><?php esc_html_e( 'Set a Featured Image to use as the hero background.', 'scout-starter' ); ?></p>
+
+	<hr>
+	<p><strong><?php esc_html_e( 'Button 1', 'scout-starter' ); ?></strong></p>
+	<p>
+		<label><?php esc_html_e( 'Label', 'scout-starter' ); ?><br>
+			<input type="text" name="scout_hero_btn1_label" value="<?php echo esc_attr( $btn1_label ); ?>" style="width:100%">
+		</label>
+	</p>
+	<p>
+		<label><?php esc_html_e( 'URL', 'scout-starter' ); ?><br>
+			<input type="text" name="scout_hero_btn1_url" value="<?php echo esc_attr( $btn1_url ); ?>" style="width:100%">
+		</label>
+	</p>
+	<p>
+		<label><?php esc_html_e( 'Background', 'scout-starter' ); ?><br>
+			<select name="scout_hero_btn1_bg" style="width:100%">
+				<?php foreach ( $bg_options as $val => $label ) { ?>
+					<option value="<?php echo esc_attr( $val ); ?>" <?php selected( $btn1_bg, $val ); ?>><?php echo esc_html( $label ); ?></option>
+				<?php } ?>
+			</select>
+		</label>
+	</p>
+	<p>
+		<label><?php esc_html_e( 'Text Color', 'scout-starter' ); ?><br>
+			<select name="scout_hero_btn1_text" style="width:100%">
+				<?php foreach ( $text_options as $val => $label ) { ?>
+					<option value="<?php echo esc_attr( $val ); ?>" <?php selected( $btn1_text, $val ); ?>><?php echo esc_html( $label ); ?></option>
+				<?php } ?>
+			</select>
+		</label>
+	</p>
+
+	<hr>
+	<p><strong><?php esc_html_e( 'Button 2', 'scout-starter' ); ?></strong></p>
+	<p>
+		<label><?php esc_html_e( 'Label', 'scout-starter' ); ?><br>
+			<input type="text" name="scout_hero_btn2_label" value="<?php echo esc_attr( $btn2_label ); ?>" style="width:100%">
+		</label>
+	</p>
+	<p>
+		<label><?php esc_html_e( 'URL', 'scout-starter' ); ?><br>
+			<input type="text" name="scout_hero_btn2_url" value="<?php echo esc_attr( $btn2_url ); ?>" style="width:100%">
+		</label>
+	</p>
+	<p>
+		<label><?php esc_html_e( 'Background', 'scout-starter' ); ?><br>
+			<select name="scout_hero_btn2_bg" style="width:100%">
+				<?php foreach ( $bg_options as $val => $label ) { ?>
+					<option value="<?php echo esc_attr( $val ); ?>" <?php selected( $btn2_bg, $val ); ?>><?php echo esc_html( $label ); ?></option>
+				<?php } ?>
+			</select>
+		</label>
+	</p>
+	<p>
+		<label><?php esc_html_e( 'Text Color', 'scout-starter' ); ?><br>
+			<select name="scout_hero_btn2_text" style="width:100%">
+				<?php foreach ( $text_options as $val => $label ) { ?>
+					<option value="<?php echo esc_attr( $val ); ?>" <?php selected( $btn2_text, $val ); ?>><?php echo esc_html( $label ); ?></option>
+				<?php } ?>
+			</select>
+		</label>
+	</p>
 	<?php
 }
 
@@ -87,5 +189,19 @@ function scout_starter_hero_meta_save( $post_id ) {
 
 	update_post_meta( $post_id, '_scout_hero_enabled', isset( $_POST['scout_hero_enabled'] ) ? 1 : 0 );
 	update_post_meta( $post_id, '_scout_hero_show_excerpt', isset( $_POST['scout_hero_show_excerpt'] ) ? 1 : 0 );
+
+	$allowed_bg   = array( 'var(--color-primary)', 'var(--color-accent)', '#ffffff', 'transparent' );
+	$allowed_text = array( '#ffffff', 'var(--color-primary)', 'var(--color-accent)', '#222222' );
+
+	// phpcs:disable WordPress.Security.NonceVerification -- nonce verified above.
+	update_post_meta( $post_id, '_scout_hero_btn1_label', sanitize_text_field( wp_unslash( $_POST['scout_hero_btn1_label'] ?? '' ) ) );
+	update_post_meta( $post_id, '_scout_hero_btn1_url',   esc_url_raw( wp_unslash( $_POST['scout_hero_btn1_url'] ?? '' ) ) );
+	update_post_meta( $post_id, '_scout_hero_btn1_bg',    in_array( $_POST['scout_hero_btn1_bg'] ?? '', $allowed_bg, true ) ? $_POST['scout_hero_btn1_bg'] : 'var(--color-accent)' );
+	update_post_meta( $post_id, '_scout_hero_btn1_text',  in_array( $_POST['scout_hero_btn1_text'] ?? '', $allowed_text, true ) ? $_POST['scout_hero_btn1_text'] : '#ffffff' );
+	update_post_meta( $post_id, '_scout_hero_btn2_label', sanitize_text_field( wp_unslash( $_POST['scout_hero_btn2_label'] ?? '' ) ) );
+	update_post_meta( $post_id, '_scout_hero_btn2_url',   esc_url_raw( wp_unslash( $_POST['scout_hero_btn2_url'] ?? '' ) ) );
+	update_post_meta( $post_id, '_scout_hero_btn2_bg',    in_array( $_POST['scout_hero_btn2_bg'] ?? '', $allowed_bg, true ) ? $_POST['scout_hero_btn2_bg'] : 'transparent' );
+	update_post_meta( $post_id, '_scout_hero_btn2_text',  in_array( $_POST['scout_hero_btn2_text'] ?? '', $allowed_text, true ) ? $_POST['scout_hero_btn2_text'] : '#ffffff' );
+	// phpcs:enable
 }
 add_action( 'save_post_page', 'scout_starter_hero_meta_save' );
