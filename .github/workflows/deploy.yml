@@ -20,6 +20,12 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -p ${{ secrets.DEPLOY_PORT || '22' }} -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts
 
+      - name: Stamp build version
+        run: |
+          BUILD_VERSION="1.0.${{ github.run_number }}"
+          sed -i "s/^Version: .*/Version: ${BUILD_VERSION}/" style.css
+          sed -i "s/define( 'SCOUT_STARTER_VERSION', '[^']*' );/define( 'SCOUT_STARTER_VERSION', '${BUILD_VERSION}' );/" functions.php
+
       - name: Deploy via rsync
         run: |
           rsync -az --delete \
