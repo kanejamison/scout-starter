@@ -67,6 +67,27 @@ function scout_starter_customize_register( $wp_customize ) {
 		'priority' => 20,
 	) );
 
+	$wp_customize->add_setting( 'scout_color_preset', array(
+		'default'           => '',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport'         => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'scout_color_preset', array(
+		'label'       => __( 'Color Preset', 'scout-starter' ),
+		'description' => __( 'Choose a preset to populate the colors below. You can still adjust individually after.', 'scout-starter' ),
+		'section'     => 'scout_colors',
+		'type'        => 'select',
+		'priority'    => 1,
+		'choices'     => array(
+			''           => __( '— Select a preset —', 'scout-starter' ),
+			'cub_pack'   => __( 'Cub Scout Pack (Navy + Gold)', 'scout-starter' ),
+			'troop'      => __( 'Scouts BSA Troop (Navy + Red)', 'scout-starter' ),
+			'venturing'  => __( 'Venturing (Green + Gold)', 'scout-starter' ),
+			'sea_scouts' => __( 'Sea Scouts (Navy + White)', 'scout-starter' ),
+		),
+	) );
+
 	$color_settings = array(
 		'scout_color_primary'   => array(
 			'label'   => __( 'Primary Color', 'scout-starter' ),
@@ -104,6 +125,20 @@ function scout_starter_customize_register( $wp_customize ) {
 	}
 }
 add_action( 'customize_register', 'scout_starter_customize_register' );
+
+/**
+ * Enqueue Customizer panel JS for the color preset selector.
+ */
+function scout_starter_customize_controls_scripts() {
+	wp_enqueue_script(
+		'scout-starter-customizer-controls',
+		get_template_directory_uri() . '/assets/js/customizer-controls.js',
+		array( 'customize-controls' ),
+		SCOUT_STARTER_VERSION,
+		true
+	);
+}
+add_action( 'customize_controls_enqueue_scripts', 'scout_starter_customize_controls_scripts' );
 
 /**
  * Output customizer color overrides as inline CSS custom properties.

@@ -46,6 +46,8 @@ function scout_starter_setup() {
 	add_theme_support( 'align-wide' );
 	add_theme_support( 'responsive-embeds' );
 
+	add_post_type_support( 'page', 'excerpt' );
+
 	global $content_width;
 	if ( ! isset( $content_width ) ) {
 		$content_width = 1140;
@@ -141,6 +143,24 @@ function scout_starter_widgets_init() {
 	) );
 }
 add_action( 'widgets_init', 'scout_starter_widgets_init' );
+
+/**
+ * Add a CSS class to the Join Us nav menu item so it can be styled as a CTA.
+ *
+ * @param string[] $classes Array of CSS classes for the nav item.
+ * @param WP_Post  $item    The nav menu item object.
+ * @return string[]
+ */
+function scout_starter_join_nav_class( $classes, $item ) {
+	if ( 'post_type' === $item->type && 'page' === $item->object ) {
+		$page = get_post( $item->object_id );
+		if ( $page && 'join-us' === $page->post_name ) {
+			$classes[] = 'menu-item-join';
+		}
+	}
+	return $classes;
+}
+add_filter( 'nav_menu_css_class', 'scout_starter_join_nav_class', 10, 2 );
 
 /**
  * Output a default favicon when no site icon has been set via Customizer.
