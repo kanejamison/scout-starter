@@ -11,7 +11,7 @@ Upon activation the theme creates core pages for you (homepage, about, events, j
 - **Auto-setup on activation** — default pages, static front page, and primary nav menu created automatically
 - **Per-page hero section** — full-width hero with featured image background (or color fallback) and optional subtitle
 - **Custom color pickers** — set primary, accent, nav, hero, and footer colors via Customizer
-- **Scouting America-aligned defaults** — navy `#003F87` + gold `#FFCC00`
+- **Scouting America-aligned defaults** — blue `#003F87` + gold `#FFCC00`
 - **Latest News section** — optional recent posts grid on the homepage (off by default)
 - **Starter content** — dual Pack/Troop content on each page; delete the section that doesn't apply
 - **Responsive** — mobile navigation toggle, fluid layout

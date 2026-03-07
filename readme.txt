@@ -16,7 +16,7 @@ Scout Starter is a lightweight WordPress theme designed for Scouting America pac
 Features:
 
 - Custom color picker for primary, accent, nav, hero, and footer colors
-- Scouting America-aligned default palette: navy blue (#003F87) + gold (#FFCC00)
+- Scouting America-aligned default palette: blue (#003F87) + gold (#FFCC00)
 - Homepage hero section with site title and tagline
 - Optional recent posts / news grid on homepage (off by default)
 - Three footer widget areas

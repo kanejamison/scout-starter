@@ -81,11 +81,11 @@ function scout_starter_customize_register( $wp_customize ) {
 		'priority'    => 1,
 		'choices'     => array(
 			''                 => __( '— Select a preset —', 'scout-starter' ),
-			'cub_pack'         => __( 'Cub Scout Pack (Navy + Gold)', 'scout-starter' ),
-			'troop'            => __( 'Scouts BSA Troop (Navy + Red)', 'scout-starter' ),
+			'cub_pack'         => __( 'Cub Scout Pack (Blue + Gold)', 'scout-starter' ),
+			'troop'            => __( 'Scouts BSA Troop (Blue + Red)', 'scout-starter' ),
 			'scouting_america' => __( 'Scouting America (Red + White)', 'scout-starter' ),
 			'venturing'        => __( 'Venturing (Green + Gold)', 'scout-starter' ),
-			'sea_scouts'       => __( 'Sea Scouts (Navy + White)', 'scout-starter' ),
+			'sea_scouts'       => __( 'Sea Scouts (Blue + White)', 'scout-starter' ),
 		),
 	) );
 
