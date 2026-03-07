@@ -17,7 +17,7 @@ function scout_starter_activate() {
 	$content_dir = __DIR__ . '/page-content';
 
 	$default_pages = array(
-		'home'    => 'Home',
+		'home'    => 'Welcome to Pack 1234!',
 		'about'   => 'About',
 		'events'  => 'Events',
 		'contact' => 'Contact',
@@ -70,7 +70,7 @@ function scout_starter_activate() {
 		update_post_meta( $page_ids['home'], '_scout_hero_btn2_label', 'Join Pack 1234' );
 		update_post_meta( $page_ids['home'], '_scout_hero_btn2_url',   '/join-us' );
 		update_post_meta( $page_ids['home'], '_scout_hero_btn2_bg',    'var(--color-accent)' );
-		update_post_meta( $page_ids['home'], '_scout_hero_btn2_text',  '#ffffff' );
+		update_post_meta( $page_ids['home'], '_scout_hero_btn2_text',  'var(--color-primary)' );
 	}
 
 	// Set static front page if not already configured.
@@ -87,6 +87,9 @@ function scout_starter_activate() {
 
 		if ( ! is_wp_error( $menu_id ) ) {
 			foreach ( $page_ids as $slug => $page_id ) {
+				if ( 'home' === $slug ) {
+					continue;
+				}
 				wp_update_nav_menu_item( $menu_id, 0, array(
 					'menu-item-object'    => 'page',
 					'menu-item-object-id' => $page_id,
