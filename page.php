@@ -10,7 +10,7 @@
 
 get_header();
 
-while ( have_posts() ) :
+while ( have_posts() ) {
 	the_post();
 
 	$hero_enabled  = (bool) get_post_meta( get_the_ID(), '_scout_hero_enabled', true );
@@ -19,30 +19,30 @@ while ( have_posts() ) :
 	$thumbnail_url = get_the_post_thumbnail_url( null, 'full' );
 	$excerpt       = get_the_excerpt();
 
-	if ( $hero_enabled ) :
+	if ( $hero_enabled ) {
 		$hero_classes = 'hero' . ( $thumbnail_url ? ' hero--has-image' : '' );
 		$hero_style   = $thumbnail_url ? ' style="background-image: url(' . esc_url( $thumbnail_url ) . ');"' : '';
 		?>
 		<section class="<?php echo esc_attr( $hero_classes ); ?>"<?php echo $hero_style; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
 			<div class="container">
 				<h1 class="hero__title"><?php the_title(); ?></h1>
-				<?php if ( $show_excerpt && $excerpt ) : ?>
+				<?php if ( $show_excerpt && $excerpt ) { ?>
 					<p class="hero__subtitle"><?php echo esc_html( $excerpt ); ?></p>
-				<?php endif; ?>
+				<?php } ?>
 			</div>
 		</section>
 		<?php
-	endif;
+	}
 	?>
 
 	<div class="section">
 		<div class="container">
 			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-				<?php if ( ! $hero_enabled ) : ?>
+				<?php if ( ! $hero_enabled ) { ?>
 					<header class="entry-header">
 						<h1 class="entry-title"><?php the_title(); ?></h1>
 					</header>
-				<?php endif; ?>
+				<?php } ?>
 
 				<div class="entry-content">
 					<?php
@@ -58,7 +58,8 @@ while ( have_posts() ) :
 		</div>
 	</div>
 
-endwhile;
+	<?php
+}
 
 // Recent posts section — front page only, when enabled in Customizer.
 if ( is_front_page() ) {
@@ -71,24 +72,24 @@ if ( is_front_page() ) {
 		'ignore_sticky_posts' => true,
 	) ) : false;
 
-	if ( $news_enabled && $recent_posts && $recent_posts->have_posts() ) :
+	if ( $news_enabled && $recent_posts && $recent_posts->have_posts() ) {
 		?>
 		<section class="section section--alt">
 			<div class="container">
 				<h2 class="section__title"><?php echo esc_html( $news_heading ); ?></h2>
 				<div class="card-grid">
 					<?php
-					while ( $recent_posts->have_posts() ) :
+					while ( $recent_posts->have_posts() ) {
 						$recent_posts->the_post();
 						get_template_part( 'template-parts/content', 'card' );
-					endwhile;
+					}
 					wp_reset_postdata();
 					?>
 				</div>
 			</div>
 		</section>
 		<?php
-	endif;
+	}
 }
 
 get_footer();
