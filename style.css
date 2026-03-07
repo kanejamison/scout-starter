@@ -277,6 +277,23 @@ p {
   text-align: center;
 }
 
+.hero--has-image {
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.hero--has-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+}
+
+.hero--has-image .container {
+  position: relative;
+}
+
 .hero__title {
   font-size: clamp(2rem, 5vw, 3.5rem);
   color: #fff;
@@ -387,7 +404,7 @@ p {
 }
 
 .entry-title {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-3xl);
 }
 
 .entry-meta {

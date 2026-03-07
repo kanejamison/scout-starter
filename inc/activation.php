@@ -52,6 +52,12 @@ function scout_starter_activate() {
 		}
 	}
 
+	// Enable hero section on the home page (default on, show excerpt as subtitle).
+	if ( ! empty( $page_ids['home'] ) ) {
+		update_post_meta( $page_ids['home'], '_scout_hero_enabled', 1 );
+		update_post_meta( $page_ids['home'], '_scout_hero_show_excerpt', 1 );
+	}
+
 	// Set static front page if not already configured.
 	if ( 'posts' === get_option( 'show_on_front' ) && ! empty( $page_ids['home'] ) ) {
 		update_option( 'show_on_front', 'page' );
