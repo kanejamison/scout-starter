@@ -11,12 +11,12 @@ A minimal WordPress starter theme for Scouting units — Cub Scouts, Scouts BSA 
 
 == Description ==
 
-Scout Starter is a lightweight WordPress theme designed for BSA Scout units. It provides a clean, professional layout with customizable branding out of the box.
+Scout Starter is a lightweight WordPress theme designed for Scouting America packs, troops, and other units. It provides a clean, professional layout with customizable branding out of the box.
 
 Features:
 
 - Custom color picker for primary, accent, nav, hero, and footer colors
-- BSA-aligned default palette: navy blue (#003F87) + gold (#FFCC00)
+- Scouting America-aligned default palette: navy blue (#003F87) + gold (#FFCC00)
 - Homepage hero section with site title and tagline
 - Optional recent posts / news grid on homepage (off by default)
 - Three footer widget areas

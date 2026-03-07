@@ -28,7 +28,7 @@ All colors are driven by CSS custom properties defined in `:root` in `style.css`
 
 `scout_starter_customizer_css()` (hooked to `wp_head`) outputs an inline `<style>` tag that overrides the `:root` custom properties based on saved theme mods. It also calls `scout_starter_darken_color()` to compute `--color-primary-dark` and `--color-accent-dark` for hover states. This inline CSS always loads, so the `:root` values in `style.css` are effectively fallbacks only.
 
-The BSA official palette is: Scouting Blue `#003F87`, Scouting Red `#CE1126`, Yellow `#FFCC00`, Brown `#996633`, Light Gray `#eae6e6`.
+The Scouting America official palette is: Scouting Blue `#003F87`, Scouting Red `#CE1126`, Yellow `#FFCC00`, Brown `#996633`, Light Gray `#eae6e6`.
 
 Site title and tagline come from WP Settings > General (`bloginfo('name')` / `bloginfo('description')`), not from Customizer settings.
 
