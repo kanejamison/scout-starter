@@ -6,7 +6,7 @@
  */
 
 if ( ! defined( 'SCOUT_STARTER_VERSION' ) ) {
-	define( 'SCOUT_STARTER_VERSION', '1.1.1' );
+	define( 'SCOUT_STARTER_VERSION', '1.1.2' );
 }
 
 require get_template_directory() . '/inc/setup.php';
