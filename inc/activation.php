@@ -277,5 +277,14 @@ function scout_starter_run_activation( $config ) {
 		$sidebars['footer-3'] = array( 'block-' . $id3 );
 
 		update_option( 'sidebars_widgets', $sidebars );
+		update_option( 'scout_footer_widget_ids', array( $id1, $id2, $id3 ) );
 	}
+
+	// Persist config values so the settings page can read them back.
+	update_option( 'scout_unit_type',      $unit_type );
+	update_option( 'scout_unit_number',    $unit_number );
+	update_option( 'scout_location',       $location );
+	update_option( 'scout_meeting_place',  $meeting_place );
+	update_option( 'scout_meeting_street', $meeting_street );
+	update_option( 'scout_meeting_city',   $meeting_city );
 }
