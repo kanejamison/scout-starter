@@ -692,7 +692,6 @@ input[type="submit"]:hover,
    ========================================================================== */
 
 .comments-area {
-  margin-top: var(--spacing-lg);
   padding-top: var(--spacing-md);
 }
 
