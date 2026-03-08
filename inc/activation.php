@@ -73,6 +73,11 @@ function scout_starter_activate() {
 		update_post_meta( $page_ids['home'], '_scout_hero_btn2_text',  'var(--color-primary)' );
 	}
 
+	// Disable comments and pingbacks by default.
+	update_option( 'default_comment_status', 'closed' );
+	update_option( 'default_ping_status', 'closed' );
+	update_option( 'default_pingback_flag', 0 );
+
 	// Set static front page if not already configured.
 	if ( 'posts' === get_option( 'show_on_front' ) && ! empty( $page_ids['home'] ) ) {
 		update_option( 'show_on_front', 'page' );
