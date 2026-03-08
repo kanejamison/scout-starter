@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Scout Starter is a plain WordPress theme (no build step, no npm, no frameworks). All styles live in `style.css` and the only JavaScript is `assets/js/navigation.js` for the mobile menu toggle.
+Scout Starter is a plain WordPress theme (no build step, no npm, no frameworks). All styles live in `style.css` and the only JavaScript is `assets/js/navigation.js` for the mobile menu toggle and `assets/js/onboarding.js` for the setup wizard.
 
 ## Versioning
 
@@ -20,11 +20,22 @@ WordPress coding standards use tabs for indentation in PHP files. CSS uses 2-spa
 
 ### File organization
 
-`functions.php` is a thin bootstrap that defines `SCOUT_STARTER_VERSION` and requires four files from `inc/`:
+`functions.php` is a thin bootstrap that defines `SCOUT_STARTER_VERSION` and requires files from `inc/`:
 - `inc/setup.php` — theme support, enqueues, widgets, favicon, font preconnect hints
 - `inc/customizer.php` — Customizer registration, inline CSS output, color/checkbox helpers
-- `inc/activation.php` — `after_switch_theme` hook: creates default pages, sets static front page, builds primary nav menu. Page content is loaded from `inc/page-content/*.html` via `file_get_contents()` — edit those HTML files to change starter copy without touching PHP
+- `inc/activation.php` — `after_switch_theme` hook sets `scout_onboarding_pending`. All setup logic is in `scout_starter_run_activation($config)`, called by the onboarding wizard or skip. Creates default pages (content from `inc/page-content/*.html`), nav menu, footer widgets, imports BSA logo. Persists config to `scout_unit_*` options and stores footer widget IDs in `scout_footer_widget_ids`.
+- `inc/onboarding.php` — 3-pane setup wizard (Unit → Meeting → Review). Shown automatically on theme activation. Also contains `scout_starter_render_reset_zone()`, a shared admin-only danger zone used on both the wizard and settings pages.
+- `inc/settings.php` — **Appearance > Scout Starter Settings**: edit unit info, meeting details, and integrations (ScoutBook calendar URL) at any time. Save updates footer widgets in-place and home page tagline. Includes Re-apply Setup (force-rebuilds footer) and the shared Danger Zone (full reset).
 - `inc/template-tags.php` — reusable output functions for templates
+
+### Default pages and page content
+
+Default pages are created by `scout_starter_run_activation()`. Their starter block content lives in `inc/page-content/<slug>.html`. **When adding or changing default pages:**
+1. Add/edit the `.html` file in `inc/page-content/`
+2. Add the slug → title entry to the `$default_pages` array in `scout_starter_run_activation()`
+3. If the page should appear in the primary nav, make sure its slug is NOT in the `$nav_exclude` array
+4. If the page should appear in the footer links widget, update the widget content in the footer-2 block in `scout_starter_run_activation()` and also in `scout_starter_update_footer_widget_content()` in `inc/settings.php`
+5. Update the Review pane list in `inc/onboarding.php` (`scout_starter_render_onboarding()`) so users see the new page listed during setup
 
 ### Color scheme
 
