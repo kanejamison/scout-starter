@@ -114,7 +114,7 @@ add_action( 'admin_init', 'scout_starter_onboarding_redirect' );
 function scout_starter_onboarding_assets( $hook_suffix ) {
 	$onboarding_pages = array(
 		'appearance_page_scout-onboarding',
-		'appearance_page_scout-settings',
+		'toplevel_page_scout-settings',
 	);
 
 	if ( ! in_array( $hook_suffix, $onboarding_pages, true ) ) {
@@ -226,26 +226,16 @@ function scout_starter_render_reset_zone() {
 		return;
 	}
 
-	$what_gets_deleted = __(
-		"This will permanently delete:\n\n" .
-		"  \u2022 Every page and post (bypassing trash)\n" .
-		"  \u2022 All navigation menus\n" .
-		"  \u2022 All footer widgets\n" .
-		"  \u2022 Theme setup state and saved settings\n\n" .
-		'This cannot be undone.',
-		'scout-starter'
-	);
-
-	$confirm2 = __( 'Last chance \u2014 delete absolutely everything and start over?', 'scout-starter' );
+	$prompt_msg = __( "This will immediately and permanently delete:\n\n  \u2022 Every page and post on this site (bypasses trash)\n  \u2022 All navigation menus\n  \u2022 All footer widgets\n  \u2022 All Scout Starter settings\n\nThis cannot be undone.\n\nType DELETE MY WHOLE SITE to confirm:", 'scout-starter' );
 	?>
 	<div class="scout-onboarding__reset-zone">
 		<p class="scout-onboarding__reset-label"><?php esc_html_e( 'Danger Zone', 'scout-starter' ); ?></p>
 		<div>
 			<p class="scout-onboarding__reset-desc">
-				<?php esc_html_e( 'Permanently deletes all pages, posts, menus, widgets, and theme setup state. Cannot be undone.', 'scout-starter' ); ?>
+				<?php esc_html_e( 'Permanently deletes every page, post, menu, widget, and Scout Starter setting on this site. Bypasses the trash. Cannot be undone.', 'scout-starter' ); ?>
 			</p>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"
-				onsubmit="return confirm( <?php echo wp_json_encode( $what_gets_deleted ); ?> ) && confirm( <?php echo wp_json_encode( $confirm2 ); ?> );">
+				onsubmit="var t = prompt( <?php echo wp_json_encode( $prompt_msg ); ?> ); return t !== null && t.trim() === 'DELETE MY WHOLE SITE';">
 				<input type="hidden" name="action" value="scout_reset">
 				<?php wp_nonce_field( 'scout_reset' ); ?>
 				<button type="submit" class="scout-onboarding__btn-reset">
