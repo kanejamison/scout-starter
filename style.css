@@ -468,7 +468,7 @@ p {
 .entry-footer {
   margin-top: var(--spacing-md);
   padding-top: var(--spacing-md);
-  border-top: 1px solid var(--color-border);
+  border-top: 2px solid var(--color-text-light);
   font-size: var(--font-size-sm);
   color: var(--color-text-light);
 }
@@ -694,7 +694,6 @@ input[type="submit"]:hover,
 .comments-area {
   margin-top: var(--spacing-lg);
   padding-top: var(--spacing-md);
-  border-top: 2px solid var(--color-border);
 }
 
 .comments-title,
@@ -755,6 +754,10 @@ input[type="submit"]:hover,
 .comment-author .fn {
   font-weight: 600;
   font-style: normal;
+}
+
+.comment-author .says {
+  display: none;
 }
 
 .comment-author img {
