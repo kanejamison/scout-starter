@@ -217,3 +217,42 @@ body.appearance_page_scout-onboarding #wpbody-content {
 .scout-onboarding__skip a:hover {
   color: #3c434a;
 }
+
+/* Dev-only reset zone */
+.scout-onboarding__reset-zone {
+  margin-top: 24px;
+  padding: 16px 20px;
+  border: 1px dashed #c3c4c7;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.scout-onboarding__reset-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #a7aaad;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.scout-onboarding__btn-reset {
+  padding: 4px 14px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #c00;
+  color: #c00;
+  line-height: 2;
+  transition: background 0.15s, color 0.15s;
+}
+
+.scout-onboarding__btn-reset:hover {
+  background: #c00;
+  color: #fff;
+}

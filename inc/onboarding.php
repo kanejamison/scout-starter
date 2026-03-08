@@ -6,6 +6,65 @@
  */
 
 /**
+ * Whether the current request is running on the demo/dev server.
+ * The reset tool is only available on this host.
+ *
+ * @return bool
+ */
+function scout_starter_is_demo_server() {
+	$host = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : '';
+	return 'scoutstarter.kanejamison.com' === $host;
+}
+
+/**
+ * Handle the nuclear reset — wipe all pages, posts, menus, and widgets.
+ * Only executable on the demo server.
+ */
+function scout_starter_handle_reset() {
+	check_admin_referer( 'scout_reset' );
+
+	if ( ! current_user_can( 'manage_options' ) || ! scout_starter_is_demo_server() ) {
+		wp_die( esc_html__( 'Not allowed.', 'scout-starter' ) );
+	}
+
+	// Delete all posts and pages (force-delete, bypass trash).
+	$posts = get_posts( array(
+		'post_type'   => array( 'post', 'page' ),
+		'numberposts' => -1,
+		'post_status' => 'any',
+	) );
+	foreach ( $posts as $post ) {
+		wp_delete_post( $post->ID, true );
+	}
+
+	// Delete all nav menus.
+	foreach ( wp_get_nav_menus() as $menu ) {
+		wp_delete_nav_menu( $menu->term_id );
+	}
+
+	// Clear widgets and sidebars.
+	update_option( 'sidebars_widgets', array() );
+	delete_option( 'widget_block' );
+
+	// Clear nav menu theme mod.
+	remove_theme_mod( 'nav_menu_locations' );
+
+	// Reset front page to default (latest posts).
+	update_option( 'show_on_front', 'posts' );
+	delete_option( 'page_on_front' );
+	delete_option( 'page_for_posts' );
+
+	// Clear onboarding and logo state so setup can be re-run.
+	delete_option( 'scout_onboarding_complete' );
+	delete_option( 'scout_onboarding_pending' );
+	delete_option( 'scout_starter_logo_attachment_id' );
+
+	wp_safe_redirect( admin_url( 'themes.php?page=scout-onboarding&scout_reset=done' ) );
+	exit;
+}
+add_action( 'admin_post_scout_reset', 'scout_starter_handle_reset' );
+
+/**
  * Register the hidden onboarding admin page under Appearance.
  */
 function scout_starter_register_onboarding_page() {
@@ -121,6 +180,13 @@ add_action( 'admin_post_scout_onboarding_skip', 'scout_starter_handle_onboarding
  * Show a success notice on the Dashboard after setup completes.
  */
 function scout_starter_onboarding_success_notice() {
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	if ( isset( $_GET['scout_reset'] ) && 'done' === $_GET['scout_reset'] ) {
+		echo '<div class="notice notice-warning is-dismissible"><p>' .
+			esc_html__( 'Site reset complete. All pages, posts, menus, and widgets have been deleted.', 'scout-starter' ) .
+			'</p></div>';
+	}
+
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	if ( ! isset( $_GET['scout_setup'] ) || 'complete' !== $_GET['scout_setup'] ) {
 		return;
@@ -291,6 +357,20 @@ function scout_starter_render_onboarding() {
 			</div>
 
 		</div><!-- /.scout-onboarding__card -->
+
+		<?php if ( scout_starter_is_demo_server() ) : ?>
+		<div class="scout-onboarding__reset-zone">
+			<p class="scout-onboarding__reset-label"><?php esc_html_e( 'Dev tools', 'scout-starter' ); ?></p>
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" onsubmit="return confirm('Delete ALL pages, posts, menus, and widgets? This cannot be undone.');">
+				<input type="hidden" name="action" value="scout_reset">
+				<?php wp_nonce_field( 'scout_reset' ); ?>
+				<button type="submit" class="scout-onboarding__btn-reset">
+					<?php esc_html_e( '&#9888; Reset Everything', 'scout-starter' ); ?>
+				</button>
+			</form>
+		</div>
+		<?php endif; ?>
+
 	</div><!-- /.scout-onboarding -->
 	<?php
 }
