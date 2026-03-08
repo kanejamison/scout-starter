@@ -40,20 +40,8 @@ endif;
 
 if ( ! function_exists( 'scout_starter_entry_footer' ) ) :
 	/**
-	 * Print entry footer with categories and tags.
+	 * Print entry footer.
 	 */
-	function scout_starter_entry_footer() {
-		if ( 'post' === get_post_type() ) {
-			$categories_list = get_the_category_list( ', ' );
-			if ( $categories_list ) {
-				printf( '<span class="cat-links">%s</span> ', $categories_list );
-			}
-
-			$tags_list = get_the_tag_list( '', ', ' );
-			if ( $tags_list ) {
-				printf( '<span class="tags-links">%s</span>', $tags_list );
-			}
-		}
-	}
+	function scout_starter_entry_footer() {}
 endif;
 

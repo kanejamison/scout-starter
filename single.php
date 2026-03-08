@@ -15,12 +15,6 @@ get_header();
 			the_post();
 			get_template_part( 'template-parts/content', get_post_type() );
 
-			// Post navigation.
-			the_post_navigation( array(
-				'prev_text' => '&larr; %title',
-				'next_text' => '%title &rarr;',
-			) );
-
 			// Comments (if open).
 			if ( comments_open() || get_comments_number() ) :
 				comments_template();
