@@ -1,0 +1,219 @@
+/*
+ * Scout Starter — Onboarding Wizard Styles
+ */
+
+/* Hide sidebar and remove left margin on the wizard page */
+body.appearance_page_scout-onboarding #adminmenumain,
+body.appearance_page_scout-onboarding #adminmenuback {
+  display: none;
+}
+
+body.appearance_page_scout-onboarding #wpcontent {
+  margin-left: 0;
+}
+
+body.appearance_page_scout-onboarding #wpbody-content {
+  padding-top: 0;
+}
+
+/* Wrapper */
+.scout-onboarding {
+  max-width: 640px;
+  margin: 32px auto;
+}
+
+/* Card */
+.scout-onboarding__card {
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+/* Header */
+.scout-onboarding__header {
+  background: var(--wp-admin-theme-color, #003f87);
+  padding: 32px 40px;
+}
+
+.scout-onboarding__header h1 {
+  color: #fff;
+  font-size: 22px;
+  margin: 0 0 8px;
+}
+
+.scout-onboarding__header p {
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+/* Progress bar */
+.scout-onboarding__progress {
+  display: flex;
+  padding: 0 40px;
+  border-bottom: 1px solid #f0f0f1;
+}
+
+.scout-onboarding__step {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  color: #aaa;
+  padding: 16px 0;
+  position: relative;
+  border-bottom: 3px solid #dcdcde;
+}
+
+.scout-onboarding__step.active {
+  color: #003f87;
+  font-weight: 600;
+  border-bottom-color: #003f87;
+}
+
+.scout-onboarding__step.done {
+  color: #003f87;
+  border-bottom-color: #003f87;
+}
+
+/* Panes */
+.scout-onboarding__pane {
+  display: none;
+  padding: 32px 40px;
+}
+
+.scout-onboarding__pane.active {
+  display: block;
+}
+
+.scout-onboarding__pane h2 {
+  font-size: 17px;
+  margin: 0 0 20px;
+}
+
+/* Fields */
+.scout-onboarding__field {
+  margin-bottom: 20px;
+}
+
+.scout-onboarding__field label {
+  display: block;
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.scout-onboarding__field input[type="text"],
+.scout-onboarding__field select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #dcdcde;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.scout-onboarding__field input[type="text"]:focus,
+.scout-onboarding__field select:focus {
+  border-color: #003f87;
+  outline: 2px solid rgba(0, 63, 135, 0.15);
+}
+
+.scout-onboarding__hint {
+  font-size: 12px;
+  color: #757575;
+  display: block;
+  margin-top: 4px;
+}
+
+/* Review checklist */
+.scout-onboarding__review-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.scout-onboarding__review-list li {
+  padding: 10px 0 10px 26px;
+  border-bottom: 1px solid #f0f0f1;
+  font-size: 13px;
+  position: relative;
+}
+
+.scout-onboarding__review-list li::before {
+  content: "\2713";
+  position: absolute;
+  left: 0;
+  color: #003f87;
+  font-weight: 700;
+}
+
+.scout-onboarding__review-note {
+  font-size: 12px;
+  color: #757575;
+  margin-top: 16px;
+}
+
+/* Action bar */
+.scout-onboarding__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 40px;
+  border-top: 1px solid #f0f0f1;
+  background: #f6f7f7;
+}
+
+/* Buttons */
+.scout-onboarding__btn {
+  padding: 6px 18px;
+  border-radius: 3px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  line-height: 2;
+}
+
+.scout-onboarding__btn--back {
+  background: #fff;
+  border: 1px solid #dcdcde;
+  color: #3c434a;
+}
+
+.scout-onboarding__btn--back:hover {
+  background: #f0f0f1;
+}
+
+.scout-onboarding__btn--next,
+.scout-onboarding__btn--submit {
+  background: #003f87;
+  color: #fff;
+}
+
+.scout-onboarding__btn--next:hover,
+.scout-onboarding__btn--submit:hover {
+  background: #002d63;
+}
+
+.scout-onboarding__btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* Skip link */
+.scout-onboarding__skip {
+  text-align: center;
+  padding: 12px 40px 20px;
+  font-size: 12px;
+}
+
+.scout-onboarding__skip a {
+  color: #a7aaad;
+  text-decoration: none;
+}
+
+.scout-onboarding__skip a:hover {
+  color: #3c434a;
+}

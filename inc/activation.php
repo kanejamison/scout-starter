@@ -8,16 +8,92 @@
  */
 
 /**
- * Create default pages, set static front page, and build primary nav on activation.
+ * On theme switch, flag that the onboarding wizard should run.
  *
- * Runs on after_switch_theme. Skips pages that already exist by slug,
- * and skips front-page/menu setup if already configured.
+ * The actual site-setup logic is deferred to scout_starter_run_activation(),
+ * which is called after the user completes (or skips) the onboarding wizard.
  */
 function scout_starter_activate() {
+	update_option( 'scout_onboarding_pending', 1 );
+}
+add_action( 'after_switch_theme', 'scout_starter_activate' );
+
+/**
+ * Create default pages, set static front page, and build primary nav.
+ *
+ * Called by the onboarding wizard after the user submits the setup form
+ * or clicks "Skip". Skips pages that already exist by slug, and skips
+ * front-page / menu setup if already configured.
+ *
+ * @param array $config {
+ *     Optional configuration values. All keys have built-in defaults.
+ *
+ *     @type string $unit_type      Unit programme type: Pack, Troop, Crew, Ship, or Post.
+ *     @type string $unit_number    Unit number, e.g. "1234".
+ *     @type string $location       City / region shown in footer, e.g. "Anytown, WA".
+ *     @type string $meeting_place  Venue name, e.g. "Anytown Community Center".
+ *     @type string $meeting_street Street address, e.g. "123 Main Street".
+ *     @type string $meeting_city   City / state / ZIP, e.g. "Anytown, WA 00000".
+ * }
+ */
+function scout_starter_run_activation( $config ) {
+	// --- Resolve config with fallbacks -------------------------------------------
+	$unit_type      = ! empty( $config['unit_type'] )      ? $config['unit_type']      : 'Pack';
+	$unit_number    = ! empty( $config['unit_number'] )    ? $config['unit_number']    : '1234';
+	$location       = ! empty( $config['location'] )       ? $config['location']       : 'Anytown, WA';
+	$meeting_place  = ! empty( $config['meeting_place'] )  ? $config['meeting_place']  : 'Anytown Community Center';
+	$meeting_street = ! empty( $config['meeting_street'] ) ? $config['meeting_street'] : '123 Main Street';
+	$meeting_city   = ! empty( $config['meeting_city'] )   ? $config['meeting_city']   : 'Anytown, WA 00000';
+
+	// --- Build derived strings ----------------------------------------------------
+	$home_title   = sprintf( 'Welcome to %s %s!', $unit_type, $unit_number );
+	$btn2_label   = sprintf( 'Join %s %s', $unit_type, $unit_number );
+	$footer_brand = sprintf( '<strong>%s %s</strong><br>%s', $unit_type, $unit_number, $location );
+
+	switch ( $unit_type ) {
+		case 'Troop':
+			$excerpt = sprintf(
+				'Scouts BSA Troop %s serves youth in the %s area.',
+				$unit_number,
+				$location
+			);
+			break;
+		case 'Crew':
+			$excerpt = sprintf(
+				'Venturing Crew %s serves young adults in the %s area.',
+				$unit_number,
+				$location
+			);
+			break;
+		case 'Ship':
+			$excerpt = sprintf(
+				'Sea Scout Ship %s serves young adults in the %s area.',
+				$unit_number,
+				$location
+			);
+			break;
+		case 'Post':
+			$excerpt = sprintf(
+				'Exploring Post %s serves youth in the %s area.',
+				$unit_number,
+				$location
+			);
+			break;
+		case 'Pack':
+		default:
+			$excerpt = sprintf(
+				'Cub Scout Pack %s serves youth in grades K–5 in the %s area.',
+				$unit_number,
+				$location
+			);
+			break;
+	}
+
+	// --- Create default pages -----------------------------------------------------
 	$content_dir = __DIR__ . '/page-content';
 
 	$default_pages = array(
-		'home'             => 'Welcome to Pack 1234!',
+		'home'             => $home_title,
 		'about'            => 'About',
 		'events'           => 'Events',
 		'contact'          => 'Contact',
@@ -54,14 +130,14 @@ function scout_starter_activate() {
 		}
 	}
 
-	// Enable hero section on the home page and set default excerpt and buttons.
+	// --- Hero meta for home page --------------------------------------------------
 	if ( ! empty( $page_ids['home'] ) ) {
 		update_post_meta( $page_ids['home'], '_scout_hero_enabled', 1 );
 		update_post_meta( $page_ids['home'], '_scout_hero_show_excerpt', 1 );
 
 		wp_update_post( array(
 			'ID'           => $page_ids['home'],
-			'post_excerpt' => 'Cub Scout Pack 1234 was chartered in 1999 and serves boys and girls in grades K-5 in the Anacortes, WA area.',
+			'post_excerpt' => $excerpt,
 		) );
 
 		update_post_meta( $page_ids['home'], '_scout_hero_btn1_label', 'Upcoming Events' );
@@ -69,31 +145,29 @@ function scout_starter_activate() {
 		update_post_meta( $page_ids['home'], '_scout_hero_btn1_bg',    '#ffffff' );
 		update_post_meta( $page_ids['home'], '_scout_hero_btn1_text',  'var(--color-primary)' );
 
-		update_post_meta( $page_ids['home'], '_scout_hero_btn2_label', 'Join Pack 1234' );
+		update_post_meta( $page_ids['home'], '_scout_hero_btn2_label', $btn2_label );
 		update_post_meta( $page_ids['home'], '_scout_hero_btn2_url',   '/join-us' );
 		update_post_meta( $page_ids['home'], '_scout_hero_btn2_bg',    'var(--color-accent)' );
 		update_post_meta( $page_ids['home'], '_scout_hero_btn2_text',  'var(--color-primary)' );
 	}
 
-	// Disable comments and pingbacks by default.
+	// --- Site defaults ------------------------------------------------------------
 	update_option( 'default_comment_status', 'closed' );
 	update_option( 'default_ping_status', 'closed' );
 	update_option( 'default_pingback_flag', 0 );
 
-	// Set static front page if not already configured.
+	// --- Static front page --------------------------------------------------------
 	if ( 'posts' === get_option( 'show_on_front' ) && ! empty( $page_ids['home'] ) ) {
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $page_ids['home'] );
 	}
 
-	// Create and assign primary nav menu if location is empty.
-	$locations = get_theme_mod( 'nav_menu_locations', array() );
+	// --- Primary nav menu ---------------------------------------------------------
+	$locations   = get_theme_mod( 'nav_menu_locations', array() );
+	$nav_exclude = array( 'home', 'website-policies', 'privacy-policy' );
 
 	if ( empty( $locations['primary'] ) ) {
 		$menu_id = wp_create_nav_menu( 'Primary Menu' );
-
-		// Slugs excluded from the primary nav menu.
-		$nav_exclude = array( 'home', 'website-policies', 'privacy-policy' );
 
 		if ( ! is_wp_error( $menu_id ) ) {
 			foreach ( $page_ids as $slug => $page_id ) {
@@ -113,7 +187,7 @@ function scout_starter_activate() {
 		}
 	}
 
-	// Import bundled BSA logo into the media library if not already done.
+	// --- Import bundled BSA logo --------------------------------------------------
 	$logo_attach_id = get_option( 'scout_starter_logo_attachment_id' );
 	$logo_src       = '';
 
@@ -124,8 +198,8 @@ function scout_starter_activate() {
 		$dest       = $upload_dir['path'] . '/' . $filename;
 
 		if ( copy( $source, $dest ) ) {
-			$filetype    = wp_check_filetype( $filename, null );
-			$attach_id   = wp_insert_attachment( array(
+			$filetype  = wp_check_filetype( $filename, null );
+			$attach_id = wp_insert_attachment( array(
 				'guid'           => $upload_dir['url'] . '/' . $filename,
 				'post_mime_type' => $filetype['type'],
 				'post_title'     => 'BSA Logo',
@@ -141,7 +215,7 @@ function scout_starter_activate() {
 		$logo_src = wp_get_attachment_url( $logo_attach_id );
 	}
 
-	// Pre-populate footer widgets if sidebars are empty.
+	// --- Footer widgets -----------------------------------------------------------
 	$sidebars = get_option( 'sidebars_widgets', array() );
 
 	if ( empty( $sidebars['footer-1'] ) && empty( $sidebars['footer-2'] ) && empty( $sidebars['footer-3'] ) ) {
@@ -151,7 +225,6 @@ function scout_starter_activate() {
 			$block_widgets = array( '_multiwidget' => 1 );
 		}
 
-		// Find next available IDs.
 		$existing_ids = array_filter( array_keys( $block_widgets ), 'is_int' );
 		$next_id      = $existing_ids ? max( $existing_ids ) + 1 : 2;
 
@@ -168,7 +241,7 @@ function scout_starter_activate() {
 <!-- /wp:image --></div>
 <!-- /wp:column --><!-- wp:column {"width":"66.66%"} -->
 <div class="wp-block-column" style="flex-basis:66.66%"><!-- wp:paragraph -->
-<p><strong>Pack 1234</strong><br>Anytown, USA</p>
+<p>' . $footer_brand . '</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->',
@@ -192,7 +265,7 @@ function scout_starter_activate() {
 		// Widget 3 — Meeting address (footer-3).
 		$block_widgets[ $next_id ] = array(
 			'content' => '<!-- wp:paragraph -->
-<p><strong><span style="text-decoration:underline;">Meeting Address:</span></strong><br><strong>Anytown Community Center</strong><br>123 Main Street<br>Anytown, USA 00000</p>
+<p><strong><span style="text-decoration:underline;">Meeting Address:</span></strong><br><strong>' . esc_html( $meeting_place ) . '</strong><br>' . esc_html( $meeting_street ) . '<br>' . esc_html( $meeting_city ) . '</p>
 <!-- /wp:paragraph -->',
 		);
 		$id3 = $next_id;
@@ -206,4 +279,3 @@ function scout_starter_activate() {
 		update_option( 'sidebars_widgets', $sidebars );
 	}
 }
-add_action( 'after_switch_theme', 'scout_starter_activate' );
