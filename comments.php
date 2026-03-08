@@ -16,21 +16,11 @@ if ( post_password_required() ) {
 
 		<h2 class="comments-title">
 			<?php
-			$comment_count = get_comments_number();
-			if ( 1 === $comment_count ) {
-				printf(
-					/* translators: %s: post title */
-					esc_html__( 'One comment on &ldquo;%s&rdquo;', 'scout-starter' ),
-					'<span>' . get_the_title() . '</span>'
-				);
-			} else {
-				printf(
-					/* translators: 1: comment count, 2: post title */
-					esc_html( _n( '%1$s comment on &ldquo;%2$s&rdquo;', '%1$s comments on &ldquo;%2$s&rdquo;', $comment_count, 'scout-starter' ) ),
-					number_format_i18n( $comment_count ),
-					'<span>' . get_the_title() . '</span>'
-				);
-			}
+			printf(
+				/* translators: %s: comment count */
+				esc_html( _n( '%s Comment', '%s Comments', get_comments_number(), 'scout-starter' ) ),
+				number_format_i18n( get_comments_number() )
+			);
 			?>
 		</h2>
 
