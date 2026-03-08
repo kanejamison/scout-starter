@@ -716,11 +716,11 @@ input[type="submit"]:hover,
   margin: 0 0 var(--spacing-lg);
 }
 
-.comment-list li {
+.comments-area li {
   list-style: none;
 }
 
-.comment-list li::marker {
+.comments-area li::marker {
   content: none;
 }
 
