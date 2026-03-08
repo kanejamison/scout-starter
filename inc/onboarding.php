@@ -87,8 +87,13 @@ function scout_starter_onboarding_redirect() {
 		return;
 	}
 
-	// Avoid redirect loops and don't redirect during AJAX.
+	// Never redirect during AJAX or form submissions — the handler must run.
 	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+		return;
+	}
+
+	global $pagenow;
+	if ( 'admin-post.php' === $pagenow ) {
 		return;
 	}
 

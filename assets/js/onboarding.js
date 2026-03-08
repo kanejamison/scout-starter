@@ -86,8 +86,10 @@
     }
   } );
 
-  // Submit button — show loading state and let the form submit naturally.
-  btnSubmit.addEventListener( 'click', function () {
+  // Show loading state on form submit — must be on the form's submit event,
+  // not the button's click, so the browser has already queued the submission
+  // before we disable the button.
+  document.querySelector( '.scout-onboarding form' ).addEventListener( 'submit', function () {
     btnSubmit.textContent = 'Setting things up\u2026';
     btnSubmit.disabled = true;
   } );
