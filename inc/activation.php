@@ -113,6 +113,34 @@ function scout_starter_activate() {
 		}
 	}
 
+	// Import bundled BSA logo into the media library if not already done.
+	$logo_attach_id = get_option( 'scout_starter_logo_attachment_id' );
+	$logo_src       = '';
+
+	if ( ! $logo_attach_id || ! wp_get_attachment_url( $logo_attach_id ) ) {
+		$source     = get_template_directory() . '/assets/images/bsa-logo-wborder2x.png';
+		$upload_dir = wp_upload_dir();
+		$filename   = 'bsa-logo-wborder2x.png';
+		$dest       = $upload_dir['path'] . '/' . $filename;
+
+		if ( copy( $source, $dest ) ) {
+			$filetype    = wp_check_filetype( $filename, null );
+			$attach_id   = wp_insert_attachment( array(
+				'guid'           => $upload_dir['url'] . '/' . $filename,
+				'post_mime_type' => $filetype['type'],
+				'post_title'     => 'BSA Logo',
+				'post_status'    => 'inherit',
+			), $dest );
+
+			require_once ABSPATH . 'wp-admin/includes/image.php';
+			wp_update_attachment_metadata( $attach_id, wp_generate_attachment_metadata( $attach_id, $dest ) );
+			update_option( 'scout_starter_logo_attachment_id', $attach_id );
+			$logo_src = $upload_dir['url'] . '/' . $filename;
+		}
+	} else {
+		$logo_src = wp_get_attachment_url( $logo_attach_id );
+	}
+
 	// Pre-populate footer widgets if sidebars are empty.
 	$sidebars = get_option( 'sidebars_widgets', array() );
 
@@ -127,13 +155,17 @@ function scout_starter_activate() {
 		$existing_ids = array_filter( array_keys( $block_widgets ), 'is_int' );
 		$next_id      = $existing_ids ? max( $existing_ids ) + 1 : 2;
 
+		$logo_img = $logo_src
+			? '<img src="' . esc_url( $logo_src ) . '" alt="Unit Logo" style="width:96px;height:auto"/>'
+			: '';
+
 		// Widget 1 — Unit branding (footer-1).
 		$block_widgets[ $next_id ] = array(
 			'content' => '<!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"33.33%"} -->
-<div class="wp-block-column" style="flex-basis:33.33%"><!-- wp:paragraph -->
-<p>🏕️</p>
-<!-- /wp:paragraph --></div>
+<div class="wp-block-column" style="flex-basis:33.33%"><!-- wp:image {"sizeSlug":"full"} -->
+<figure class="wp-block-image size-full">' . $logo_img . '</figure>
+<!-- /wp:image --></div>
 <!-- /wp:column --><!-- wp:column {"width":"66.66%"} -->
 <div class="wp-block-column" style="flex-basis:66.66%"><!-- wp:paragraph -->
 <p><strong>Pack 1234</strong><br>Anytown, USA</p>
@@ -160,7 +192,7 @@ function scout_starter_activate() {
 		// Widget 3 — Meeting address (footer-3).
 		$block_widgets[ $next_id ] = array(
 			'content' => '<!-- wp:paragraph -->
-<p><strong><span style="text-decoration:underline;">Pack Meeting Address:</span></strong><br><strong>Anytown Community Center</strong><br>123 Main Street<br>Anytown, USA 00000</p>
+<p><strong><span style="text-decoration:underline;">Meeting Address:</span></strong><br><strong>Anytown Community Center</strong><br>123 Main Street<br>Anytown, USA 00000</p>
 <!-- /wp:paragraph -->',
 		);
 		$id3 = $next_id;
