@@ -357,6 +357,10 @@ function scout_starter_render_settings() {
 			<?php wp_nonce_field( 'scout_redo_setup' ); ?>
 			<?php submit_button( __( 'Re-apply Setup', 'scout-starter' ), 'secondary', 'submit', false ); ?>
 		</form>
+
+		<hr>
+
+		<?php scout_starter_render_reset_zone(); ?>
 	</div>
 	<?php
 }
