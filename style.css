@@ -468,7 +468,7 @@ p {
 .entry-footer {
   margin-top: var(--spacing-md);
   padding-top: var(--spacing-md);
-  border-top: 2px solid var(--color-text-light);
+  border-top: 2px solid var(--color-border);
   font-size: var(--font-size-sm);
   color: var(--color-text-light);
 }
