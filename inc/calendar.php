@@ -58,9 +58,17 @@ add_action( 'wp_ajax_scout_ical_proxy', 'scout_starter_ical_proxy' );
  */
 function scout_starter_register_calendar_assets() {
 	wp_register_script(
+		'ical-js',
+		'https://cdn.jsdelivr.net/npm/ical.js@1.5.0/build/ical.min.js',
+		array(),
+		'1.5.0',
+		true
+	);
+
+	wp_register_script(
 		'fullcalendar',
 		'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.20/index.global.min.js',
-		array(),
+		array( 'ical-js' ),
 		'6.1.20',
 		true
 	);
