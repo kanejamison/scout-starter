@@ -57,11 +57,13 @@ add_action( 'wp_ajax_scout_ical_proxy', 'scout_starter_ical_proxy' );
  * global build, bundles ical.js) → our initialisation script.
  */
 function scout_starter_register_calendar_assets() {
+	// @fullcalendar/icalendar requires ical.js ^1.x (peer dependency).
+	// ical.js v2 removed the ICAL global that the plugin expects.
 	wp_register_script(
 		'ical-js',
-		'https://cdn.jsdelivr.net/npm/ical.js@2/build/ical.min.js',
+		'https://cdn.jsdelivr.net/npm/ical.js@1/build/ical.min.js',
 		array(),
-		'2',
+		'1',
 		true
 	);
 
