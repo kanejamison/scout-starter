@@ -398,8 +398,6 @@ function scout_starter_render_onboarding() {
 
 		</div><!-- /.scout-onboarding__card -->
 
-		<?php scout_starter_render_reset_zone(); ?>
-
 	</div><!-- /.scout-onboarding -->
 	<?php
 }
