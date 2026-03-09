@@ -6,7 +6,7 @@
  *   [scout_calendar] — month grid view (dayGridMonth)
  *   [scout_agenda]   — upcoming events list view (listYear)
  *
- * Both shortcodes render nothing if no ScoutBook calendar URL is saved
+ * Both shortcodes render nothing if no Scoutbook calendar URL is saved
  * under Settings > Calendar, so it is safe to include them in page content.
  *
  * The iCal feed is fetched server-side via the proxy endpoint to avoid

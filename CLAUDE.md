@@ -25,7 +25,7 @@ WordPress coding standards use tabs for indentation in PHP files. CSS uses 2-spa
 - `inc/customizer.php` — Customizer registration, inline CSS output, color/checkbox helpers
 - `inc/activation.php` — `after_switch_theme` hook sets `scout_onboarding_pending`. All setup logic is in `scout_starter_run_activation($config)`, called by the onboarding wizard or skip. Creates default pages (content from `inc/page-content/*.html`), nav menu, footer widgets, imports BSA logo. Persists config to `scout_unit_*` options and stores footer widget IDs in `scout_footer_widget_ids`.
 - `inc/onboarding.php` — 3-pane setup wizard (Unit → Meeting → Review). Shown automatically on theme activation. Also contains `scout_starter_render_reset_zone()`, a shared admin-only danger zone used on both the wizard and settings pages.
-- `inc/settings.php` — **Appearance > Scout Starter Settings**: edit unit info, meeting details, and integrations (ScoutBook calendar URL) at any time. Save updates footer widgets in-place and home page tagline. Includes Re-apply Setup (force-rebuilds footer) and the shared Danger Zone (full reset).
+- `inc/settings.php` — **Appearance > Scout Starter Settings**: edit unit info, meeting details, and integrations (Scoutbook calendar URL) at any time. Save updates footer widgets in-place and home page tagline. Includes Re-apply Setup (force-rebuilds footer) and the shared Danger Zone (full reset).
 - `inc/template-tags.php` — reusable output functions for templates
 
 ### Default pages and page content
