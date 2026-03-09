@@ -39,16 +39,24 @@ The calendar feature requires a public iCal URL saved under **Scout Starter > Ca
 - `[scout_calendar]` — month grid view (`dayGridMonth`)
 - `[scout_agenda]` — upcoming events list, starting from today (`listYear`)
 
-**Block files:** `blocks/scout-calendar/block.json` + `blocks/scout-calendar/editor.js`. The editor UI is written without JSX using `wp.element.createElement` (no build step). The block is dynamic (server-side rendered via PHP callback).
+**Block** (`blocks/scout-calendar/`): `block.json` + `editor.js`. Editor UI written without JSX using `wp.element.createElement` (no build step). Attributes: `view` (string, default `dayGridMonth`) and `limit` (integer, default 12). The block is dynamic (server-side rendered via PHP callback in `inc/calendar.php`). Inspector shows a `SelectControl` for view and a `RangeControl` (1–100) for event count, which only appears when list view is selected.
+
+**Shortcodes:**
+- `[scout_calendar]` — month grid
+- `[scout_agenda]` — upcoming events list, default 12
+- `[scout_agenda events="5"]` — custom count, clamped server-side to 1–100
 
 **iCal proxy:** `/wp-admin/admin-ajax.php?action=scout_ical_proxy` — fetches the stored URL server-side and returns raw iCal data. Required to avoid CORS errors when FullCalendar fetches a remote `.ics` file.
 
 **CDN deps (jsDelivr, major-pinned):**
 - `ical.js@1` — must stay on 1.x; `@fullcalendar/icalendar` peer-depends on it and expects the `ICAL` global removed in v2
 - `fullcalendar@6` — main bundle
-- `@fullcalendar/icalendar@6` — iCal event source plugin
+- `@fullcalendar/icalendar@6` — iCal event source plugin (month grid only)
 
-**JS:** `assets/js/scout-calendar.js` — initialises FullCalendar on `.scout-calendar` elements using `data-view` and `data-feed` attributes. Sets `validRange.start` to one year ago so old events never display.
+**JS:** `assets/js/scout-calendar.js` — initialises FullCalendar on `.scout-calendar` elements using `data-view`, `data-feed`, and `data-limit` attributes.
+- Month grid: URL-based event source via `@fullcalendar/icalendar` plugin
+- Agenda: fetches iCal proxy directly, parses with `ICAL.js`, expands recurring events, returns next N events from today within 12 months
+- `validRange.start` set to one year ago so stale events are never reachable via navigation
 
 ### Default pages and page content
 
