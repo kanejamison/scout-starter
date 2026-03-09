@@ -98,6 +98,10 @@
 			// Never show events older than one year (month view navigation guard).
 			validRange: { start: oneYearAgo },
 
+			buttonText: {
+				today: 'Today',
+			},
+
 			headerToolbar: {
 				left:   'prev,next today',
 				center: 'title',
