@@ -70,6 +70,7 @@
 	function initCalendar( el ) {
 		var view    = el.dataset.view || 'dayGridMonth';
 		var feedUrl = el.dataset.feed;
+		var limit   = parseInt( el.dataset.limit, 10 ) || 12;
 		var isList  = view.indexOf( 'list' ) === 0;
 		var today   = new Date();
 
@@ -82,7 +83,7 @@
 			? function ( fetchInfo, successCallback, failureCallback ) {
 				fetch( feedUrl )
 					.then( function ( r ) { return r.text(); } )
-					.then( function ( text ) { successCallback( parseUpcomingEvents( text, 12 ) ); } )
+					.then( function ( text ) { successCallback( parseUpcomingEvents( text, limit ) ); } )
 					.catch( failureCallback );
 			}
 			: { url: feedUrl, format: 'ics' };

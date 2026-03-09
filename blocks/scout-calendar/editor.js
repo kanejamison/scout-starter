@@ -13,11 +13,13 @@
 	var InspectorControls  = wp.blockEditor.InspectorControls;
 	var PanelBody          = wp.components.PanelBody;
 	var SelectControl      = wp.components.SelectControl;
+	var RangeControl       = wp.components.RangeControl;
 
 	registerBlockType( 'scout-starter/calendar', {
 
 		edit: function ( props ) {
 			var view       = props.attributes.view || 'dayGridMonth';
+			var limit      = props.attributes.limit || 12;
 			var viewLabel  = view === 'listYear'
 				? __( 'Upcoming Events List', 'scout-starter' )
 				: __( 'Month Grid View', 'scout-starter' );
@@ -48,6 +50,15 @@
 							],
 							onChange: function ( val ) {
 								props.setAttributes( { view: val } );
+							},
+						} ),
+						view === 'listYear' && el( RangeControl, {
+							label:    __( 'Number of events', 'scout-starter' ),
+							value:    limit,
+							min:      1,
+							max:      100,
+							onChange: function ( val ) {
+								props.setAttributes( { limit: val } );
 							},
 						} )
 					)

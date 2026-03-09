@@ -103,22 +103,25 @@ add_action( 'wp_enqueue_scripts', 'scout_starter_register_calendar_assets' );
  * Returns an empty string if no calendar URL is configured, so the
  * shortcodes are safe to ship inside default page content.
  *
- * @param string $view FullCalendar initialView value.
+ * @param string $view  FullCalendar initialView value.
+ * @param int    $limit Max events to show (agenda view only, 1–100).
  * @return string HTML output.
  */
-function scout_starter_render_calendar( $view ) {
+function scout_starter_render_calendar( $view, $limit = 12 ) {
 	if ( ! get_option( 'scout_scoutbook_calendar' ) ) {
 		return '';
 	}
 
 	wp_enqueue_script( 'scout-calendar' );
 
+	$limit    = max( 1, min( 100, (int) $limit ) );
 	$feed_url = admin_url( 'admin-ajax.php?action=scout_ical_proxy' );
 
 	return sprintf(
-		'<div class="scout-calendar" data-view="%s" data-feed="%s"></div>',
+		'<div class="scout-calendar" data-view="%s" data-feed="%s" data-limit="%d"></div>',
 		esc_attr( $view ),
-		esc_url( $feed_url )
+		esc_url( $feed_url ),
+		$limit
 	);
 }
 
@@ -142,8 +145,9 @@ function scout_starter_register_calendar_block() {
 		get_template_directory() . '/blocks/scout-calendar',
 		array(
 			'render_callback' => function ( $attributes ) {
-				$view = ! empty( $attributes['view'] ) ? $attributes['view'] : 'dayGridMonth';
-				return scout_starter_render_calendar( $view );
+				$view  = ! empty( $attributes['view'] )  ? $attributes['view']  : 'dayGridMonth';
+				$limit = ! empty( $attributes['limit'] ) ? $attributes['limit'] : 12;
+				return scout_starter_render_calendar( $view, $limit );
 			},
 		)
 	);
@@ -162,8 +166,11 @@ add_shortcode( 'scout_calendar', function () {
 } );
 
 /**
- * [scout_agenda] — upcoming events in a scrollable list.
+ * [scout_agenda events="12"] — upcoming events in a scrollable list.
+ *
+ * @param array $atts  events: number of events to show (1–100, default 12).
  */
-add_shortcode( 'scout_agenda', function () {
-	return scout_starter_render_calendar( 'listYear' );
+add_shortcode( 'scout_agenda', function ( $atts ) {
+	$atts = shortcode_atts( array( 'events' => 12 ), $atts, 'scout_agenda' );
+	return scout_starter_render_calendar( 'listYear', $atts['events'] );
 } );

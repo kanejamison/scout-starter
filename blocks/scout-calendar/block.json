@@ -15,6 +15,10 @@
     "view": {
       "type": "string",
       "default": "dayGridMonth"
+    },
+    "limit": {
+      "type": "integer",
+      "default": 12
     }
   },
   "editorScript": "scout-calendar-block-editor"
