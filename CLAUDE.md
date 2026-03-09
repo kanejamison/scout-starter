@@ -26,7 +26,29 @@ WordPress coding standards use tabs for indentation in PHP files. CSS uses 2-spa
 - `inc/activation.php` — `after_switch_theme` hook sets `scout_onboarding_pending`. All setup logic is in `scout_starter_run_activation($config)`, called by the onboarding wizard or skip. Creates default pages (content from `inc/page-content/*.html`), nav menu, footer widgets, imports BSA logo. Persists config to `scout_unit_*` options and stores footer widget IDs in `scout_footer_widget_ids`.
 - `inc/onboarding.php` — 3-pane setup wizard (Unit → Meeting → Review). Shown automatically on theme activation. Also contains `scout_starter_render_reset_zone()`, a shared admin-only danger zone used on both the wizard and settings pages.
 - `inc/settings.php` — **Appearance > Scout Starter Settings**: edit unit info, meeting details, and integrations (Scoutbook calendar URL) at any time. Save updates footer widgets in-place and home page tagline. Includes Re-apply Setup (force-rebuilds footer) and the shared Danger Zone (full reset).
+- `inc/calendar.php` — iCal proxy endpoint (AJAX, avoids browser CORS), FullCalendar asset registration, `scout_starter_render_calendar()` shared renderer, `[scout_calendar]`/`[scout_agenda]` shortcodes, and `scout-starter/calendar` Gutenberg block registration.
 - `inc/template-tags.php` — reusable output functions for templates
+
+### Calendar integration
+
+The calendar feature requires a public iCal URL saved under **Scout Starter > Calendar**. When no URL is configured, all calendar output (block and shortcodes) renders nothing — safe to include in default page content.
+
+**Block:** `scout-starter/calendar` — insert via the block editor (search "Scout Calendar"). Choose between Month Grid and Upcoming Events List in the block inspector. Rendered server-side.
+
+**Shortcodes (fallback / manual embed):**
+- `[scout_calendar]` — month grid view (`dayGridMonth`)
+- `[scout_agenda]` — upcoming events list, starting from today (`listYear`)
+
+**Block files:** `blocks/scout-calendar/block.json` + `blocks/scout-calendar/editor.js`. The editor UI is written without JSX using `wp.element.createElement` (no build step). The block is dynamic (server-side rendered via PHP callback).
+
+**iCal proxy:** `/wp-admin/admin-ajax.php?action=scout_ical_proxy` — fetches the stored URL server-side and returns raw iCal data. Required to avoid CORS errors when FullCalendar fetches a remote `.ics` file.
+
+**CDN deps (jsDelivr, major-pinned):**
+- `ical.js@1` — must stay on 1.x; `@fullcalendar/icalendar` peer-depends on it and expects the `ICAL` global removed in v2
+- `fullcalendar@6` — main bundle
+- `@fullcalendar/icalendar@6` — iCal event source plugin
+
+**JS:** `assets/js/scout-calendar.js` — initialises FullCalendar on `.scout-calendar` elements using `data-view` and `data-feed` attributes. Sets `validRange.start` to one year ago so old events never display.
 
 ### Default pages and page content
 

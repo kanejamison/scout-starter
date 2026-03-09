@@ -1,0 +1,21 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "scout-starter/calendar",
+  "title": "Scout Calendar",
+  "category": "embed",
+  "description": "Displays your unit calendar. Configure the iCal feed URL under Scout Starter \u203a Calendar.",
+  "keywords": ["calendar", "events", "scout", "scoutbook", "ical"],
+  "textdomain": "scout-starter",
+  "supports": {
+    "html": false,
+    "align": false
+  },
+  "attributes": {
+    "view": {
+      "type": "string",
+      "default": "dayGridMonth"
+    }
+  },
+  "editorScript": "scout-calendar-block-editor"
+}

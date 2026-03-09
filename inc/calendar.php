@@ -123,6 +123,34 @@ function scout_starter_render_calendar( $view ) {
 }
 
 // ---------------------------------------------------------------------------
+// Gutenberg block
+// ---------------------------------------------------------------------------
+
+/**
+ * Register the Scout Calendar block (dynamic, server-side rendered).
+ */
+function scout_starter_register_calendar_block() {
+	wp_register_script(
+		'scout-calendar-block-editor',
+		get_template_directory_uri() . '/blocks/scout-calendar/editor.js',
+		array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n' ),
+		SCOUT_STARTER_VERSION,
+		true
+	);
+
+	register_block_type(
+		get_template_directory() . '/blocks/scout-calendar',
+		array(
+			'render_callback' => function ( $attributes ) {
+				$view = ! empty( $attributes['view'] ) ? $attributes['view'] : 'dayGridMonth';
+				return scout_starter_render_calendar( $view );
+			},
+		)
+	);
+}
+add_action( 'init', 'scout_starter_register_calendar_block' );
+
+// ---------------------------------------------------------------------------
 // Shortcodes
 // ---------------------------------------------------------------------------
 

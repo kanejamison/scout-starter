@@ -11,13 +11,19 @@
 	function initCalendar( el ) {
 		var view    = el.dataset.view || 'dayGridMonth';
 		var feedUrl = el.dataset.feed;
+		var today   = new Date();
+		var oneYearAgo = new Date( today );
+		oneYearAgo.setFullYear( oneYearAgo.getFullYear() - 1 );
 
 		var calendar = new FullCalendar.Calendar( el, {
 			initialView:    view,
-			initialDate:    new Date(),
+			initialDate:    today,
 			height:         'auto',
 			fixedWeekCount: false,
 			noEventsText:   'No upcoming events.',
+
+			// Never show events older than one year.
+			validRange: { start: oneYearAgo },
 
 			headerToolbar: {
 				left:   'prev,next today',
