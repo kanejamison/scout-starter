@@ -45,6 +45,8 @@ All colors are driven by CSS custom properties defined in `:root` in `style.css`
 
 The Scouting America official palette is: Scouting Blue `#003F87`, Scouting Red `#CE1126`, Yellow `#FFCC00`, Brown `#996633`, Light Gray `#eae6e6`.
 
+**Branding:** Always use "Scouting America" — never "Boy Scouts of America" or "BSA" when referring to the organization by name.
+
 Site title and tagline come from WP Settings > General (`bloginfo('name')` / `bloginfo('description')`), not from Customizer settings.
 
 ### Latest News section
