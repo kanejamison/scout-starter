@@ -59,25 +59,25 @@ add_action( 'wp_ajax_scout_ical_proxy', 'scout_starter_ical_proxy' );
 function scout_starter_register_calendar_assets() {
 	wp_register_script(
 		'ical-js',
-		'https://cdn.jsdelivr.net/npm/ical.js@2.2.1/build/ical.min.js',
+		'https://cdn.jsdelivr.net/npm/ical.js@2/build/ical.min.js',
 		array(),
-		'2.2.1',
+		'2',
 		true
 	);
 
 	wp_register_script(
 		'fullcalendar',
-		'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.20/index.global.min.js',
+		'https://cdn.jsdelivr.net/npm/fullcalendar@6/index.global.min.js',
 		array( 'ical-js' ),
-		'6.1.20',
+		'6',
 		true
 	);
 
 	wp_register_script(
 		'fullcalendar-icalendar',
-		'https://cdn.jsdelivr.net/npm/@fullcalendar/icalendar@6.1.20/index.global.min.js',
+		'https://cdn.jsdelivr.net/npm/@fullcalendar/icalendar@6/index.global.min.js',
 		array( 'fullcalendar' ),
-		'6.1.20',
+		'6',
 		true
 	);
 
