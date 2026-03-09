@@ -13,10 +13,11 @@
 		var feedUrl = el.dataset.feed;
 
 		var calendar = new FullCalendar.Calendar( el, {
-			initialView:  view,
-			initialDate:  new Date(),
-			height:       'auto',
-			noEventsText: 'No upcoming events.',
+			initialView:        view,
+			initialDate:        new Date(),
+			height:             'auto',
+			showNonCurrentDates: false,
+			noEventsText:       'No upcoming events.',
 
 			headerToolbar: {
 				left:   'prev,next today',
