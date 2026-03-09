@@ -36,6 +36,13 @@ function scout_starter_render_settings_calendar() {
 		<?php wp_nonce_field( 'scout_settings_calendar' ); ?>
 
 		<h2><?php esc_html_e( 'ScoutBook Calendar', 'scout-starter' ); ?></h2>
+
+		<div class="notice notice-warning inline" style="margin:12px 0 20px;">
+			<p><strong><?php esc_html_e( 'Privacy reminder before you connect ScoutBook:', 'scout-starter' ); ?></strong></p>
+			<p><?php esc_html_e( 'Your website calendar is public — anyone on the internet can see it. Do not include personal details (names of youth or families), home addresses, or private meeting locations in your ScoutBook events if you plan to display them here.', 'scout-starter' ); ?></p>
+			<p><?php esc_html_e( 'If your events include sensitive location details or personal information, consider creating a separate Google Calendar specifically for your public website, and connecting that instead.', 'scout-starter' ); ?></p>
+		</div>
+
 		<table class="form-table" role="presentation">
 			<tr>
 				<th scope="row">
@@ -46,7 +53,7 @@ function scout_starter_render_settings_calendar() {
 						value="<?php echo esc_attr( $config['scoutbook_calendar'] ); ?>"
 						class="large-text" placeholder="https://...">
 					<p class="description">
-						<?php esc_html_e( 'Paste the public iCal feed URL from your ScoutBook unit calendar. Once saved, the calendar will appear automatically on your Events page. You can also embed it anywhere using the shortcodes [scout_calendar] (month view) or [scout_agenda] (upcoming events list).', 'scout-starter' ); ?>
+						<?php esc_html_e( 'Paste the public iCal feed URL from your ScoutBook unit calendar (or any public iCal feed). Once saved, the calendar will appear automatically on your Events page. You can also embed it anywhere using the shortcodes [scout_calendar] (month view) or [scout_agenda] (upcoming events list).', 'scout-starter' ); ?>
 					</p>
 				</td>
 			</tr>
