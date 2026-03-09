@@ -46,7 +46,7 @@ function scout_starter_render_settings_calendar() {
 						value="<?php echo esc_attr( $config['scoutbook_calendar'] ); ?>"
 						class="large-text" placeholder="https://...">
 					<p class="description">
-						<?php esc_html_e( 'Paste the public iCal feed URL from your ScoutBook unit calendar. Leave blank to skip. You can add this later — calendar display is coming in a future update.', 'scout-starter' ); ?>
+						<?php esc_html_e( 'Paste the public iCal feed URL from your ScoutBook unit calendar. Once saved, the calendar will appear automatically on your Events page. You can also embed it anywhere using the shortcodes [scout_calendar] (month view) or [scout_agenda] (upcoming events list).', 'scout-starter' ); ?>
 					</p>
 				</td>
 			</tr>

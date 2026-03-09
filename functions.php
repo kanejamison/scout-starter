@@ -14,5 +14,6 @@ require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/activation.php';
 require get_template_directory() . '/inc/onboarding.php';
 require get_template_directory() . '/inc/settings.php';
+require get_template_directory() . '/inc/calendar.php';
 require get_template_directory() . '/inc/meta.php';
 require get_template_directory() . '/inc/template-tags.php';
