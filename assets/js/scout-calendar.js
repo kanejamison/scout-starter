@@ -25,11 +25,20 @@
 			// Never show events older than one year.
 			validRange: { start: oneYearAgo },
 
-			headerToolbar: {
-				left:   'prev,next today',
-				center: 'title',
-				right:  '',
+			// Override listYear to use a rolling 12-month window from initialDate
+		// rather than anchoring to Jan 1 of the current year.
+		views: {
+			listYear: {
+				type:     'list',
+				duration: { months: 12 },
 			},
+		},
+
+		headerToolbar: {
+			left:   'prev,next today',
+			center: 'title',
+			right:  '',
+		},
 
 			events: {
 				url:    feedUrl,
