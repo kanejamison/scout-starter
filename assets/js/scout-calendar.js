@@ -110,6 +110,13 @@
 
 			events: eventSource,
 
+			eventDidMount: function ( info ) {
+				if ( info.el.tagName === 'A' ) {
+					info.el.setAttribute( 'target', '_blank' );
+					info.el.setAttribute( 'rel', 'noopener noreferrer' );
+				}
+			},
+
 			eventSourceFailure: function () {
 				var msg       = document.createElement( 'p' );
 				msg.className = 'scout-calendar__error';
